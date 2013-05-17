@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from flask import Markup
+from flask import Markup, current_app
 
 from flask.ext.wtf import Form, ValidationError
 from flask.ext.wtf import (HiddenField, BooleanField, TextField,
         PasswordField, SubmitField)
+from flask import current_app
 from flask.ext.wtf import Required, Length, EqualTo, Email
 from flask.ext.wtf.html5 import EmailField
+from ..user import User, UserDetail
 
 from ..user import User
 from ..utils import (PASSWORD_LEN_MIN, PASSWORD_LEN_MAX,
         USERNAME_LEN_MIN, USERNAME_LEN_MAX)
-
+from ..extensions import db
 
 class LoginForm(Form):
     next = HiddenField()
@@ -41,10 +43,20 @@ class SignupForm(Form):
         if User.query.filter_by(email=field.data).first() is not None:
             raise ValidationError(u'This email is taken')
 
+    def signup(self):
+        user = User()
+        user.user_detail = UserDetail()
+        self.populate_obj(user)
+        db.session.add(user)
+        db.session.commit()
+        return user
+
 
 class RecoverPasswordForm(Form):
     email = EmailField(u'Your email', [Email()])
     submit = SubmitField('Send instructions')
+
+
 
 
 class ChangePasswordForm(Form):
@@ -54,15 +66,23 @@ class ChangePasswordForm(Form):
     submit = SubmitField('Save')
 
 
+
+
 class ReauthForm(Form):
     next = HiddenField()
     password = PasswordField(u'Password', [Required(), Length(PASSWORD_LEN_MIN, PASSWORD_LEN_MAX)])
     submit = SubmitField('Reauthenticate')
 
 
+
 class OpenIDForm(Form):
     openid = TextField(u'Your OpenID', [Required()])
     submit = SubmitField(u'Log in with OpenID')
+
+    def login(self,oid):
+        openid = self.openid.data
+        current_app.logger.debug('login with openid(%s)...' % openid)
+        return oid.try_login(openid, ask_for=['email', 'fullname', 'nickname'])
 
 
 class CreateProfileForm(Form):
@@ -81,3 +101,9 @@ class CreateProfileForm(Form):
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first() is not None:
             raise ValidationError(u'This email is taken.')
+
+    def create_profile(self):
+        user = User()
+        self.populate_obj(user)
+        db.session.add(user)
+        db.session.commit()

@@ -97,6 +97,17 @@ class User(db.Model, UserMixin):
             return False
         return check_password_hash(self.password, password)
 
+    def reset_password(self):
+        self.activation_key = str(uuid4())
+        db.session.add(self)
+        db.session.commit()
+
+    def change_password(self):
+        self.password = self.password.data
+        self.activation_key = None
+        db.session.add(self)
+        db.session.commit()
+
     # ================================================================
     # One-to-many relationship between users and roles.
     role_code = Column(db.SmallInteger, default=USER)

@@ -13,8 +13,8 @@ class BaseConfig(object):
     # ../../config.py
     PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-    DEBUG = False
-    TESTING = False
+    DEBUG = True
+    TESTING = True
 
     ADMINS = ['youremail@yourdomain.com']
 
@@ -35,6 +35,7 @@ class BaseConfig(object):
 class DefaultConfig(BaseConfig):
 
     DEBUG = True
+    TESTING = True
 
     # Flask-Sqlalchemy: http://packages.python.org/Flask-SQLAlchemy/config.html
     SQLALCHEMY_ECHO = True

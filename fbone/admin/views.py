@@ -3,7 +3,6 @@
 from flask import Blueprint, render_template, request, flash
 from flask.ext.login import login_required
 
-from ..extensions import db
 from ..decorators import admin_required
 
 from ..user import User
@@ -37,10 +36,7 @@ def user(user_id):
     form = UserForm(obj=user, next=request.args.get('next'))
 
     if form.validate_on_submit():
-        form.populate_obj(user)
-
-        db.session.add(user)
-        db.session.commit()
+        form.save(user)
 
         flash('User updated.', 'success')
 

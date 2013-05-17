@@ -44,6 +44,8 @@ def create_app(config=None, app_name=None, blueprints=None):
     configure_template_filters(app)
     configure_error_handlers(app)
 
+
+
     return app
 
 

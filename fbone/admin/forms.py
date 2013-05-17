@@ -3,6 +3,7 @@
 from flask.ext.wtf import Form
 from flask.ext.wtf import HiddenField, SubmitField, RadioField, DateField
 from flask.ext.wtf import AnyOf
+from ..extensions import db
 
 from ..user import USER_ROLE, USER_STATUS
 
@@ -16,3 +17,10 @@ class UserForm(Form):
     # A demo of datepicker.
     created_time = DateField(u'Created time')
     submit = SubmitField(u'Save')
+
+    def save(self,user):
+        self.populate_obj(user)
+        db.session.add(user)
+        db.session.commit()
+
+

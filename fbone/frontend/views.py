@@ -9,7 +9,7 @@ from flaskext.babel import gettext as _
 from flask.ext.login import login_required, login_user, current_user, logout_user, confirm_login, login_fresh
 
 from ..user import User, UserDetail
-from ..extensions import db, mail, login_manager, oid
+from ..extensions import  mail, login_manager, oid
 from .forms import SignupForm, LoginForm, RecoverPasswordForm, ReauthForm, ChangePasswordForm, OpenIDForm, CreateProfileForm
 
 
@@ -24,9 +24,7 @@ def login_openid():
 
     form = OpenIDForm()
     if form.validate_on_submit():
-        openid = form.openid.data
-        current_app.logger.debug('login with openid(%s)...' % openid)
-        return oid.try_login(openid, ask_for=['email', 'fullname', 'nickname'])
+        return form.login(oid)
     return render_template('frontend/login_openid.html', form=form, error=oid.fetch_error())
 
 
@@ -51,10 +49,7 @@ def create_profile():
             openid=request.args.get('openid'))
 
     if form.validate_on_submit():
-        user = User()
-        form.populate_obj(user)
-        db.session.add(user)
-        db.session.commit()
+        form.create_profile()
 
         if login_user(user):
             return redirect(url_for('user.index'))
@@ -143,12 +138,7 @@ def signup():
     form = SignupForm(next=request.args.get('next'))
 
     if form.validate_on_submit():
-        user = User()
-        user.user_detail = UserDetail()
-        form.populate_obj(user)
-
-        db.session.add(user)
-        db.session.commit()
+        user = form.signup()
 
         if login_user(user):
             return redirect(form.next.data or url_for('user.index'))
@@ -175,10 +165,7 @@ def change_password():
     form = ChangePasswordForm(activation_key=user.activation_key)
 
     if form.validate_on_submit():
-        user.password = form.password.data
-        user.activation_key = None
-        db.session.add(user)
-        db.session.commit()
+        user.change_password()
 
         flash(_("Your password has been changed, please log in again"),
               "success")
@@ -198,9 +185,7 @@ def reset_password():
             flash('Please see your email for instructions on '
                   'how to access your account', 'success')
 
-            user.activation_key = str(uuid4())
-            db.session.add(user)
-            db.session.commit()
+            user.recover_password()
 
             url = url_for('frontend.change_password', email=user.email, activation_key=user.activation_key, _external=True)
             html = render_template('macros/_reset_password.html', project=current_app.config['PROJECT'], username=user.name, url=url)
