@@ -150,13 +150,28 @@ class User(db.Model, UserMixin):
     def follow(self, user):
         user.followers.add(self.id)
         self.following.add(user.id)
+        user.followers=list(user.followers)
+        self.following=list(self.following)
+        # user.followers= 
+        # db.session.add(self)
+        # db.session.add(user)
+        # print "1.0"
+        db.session.commit()
 
     def unfollow(self, user):
         if self.id in user.followers:
+            print "1.0:%s"%user.followers
             user.followers.remove(self.id)
+            user.followers=list(user.followers)
+            print "2.0:%s"%user.followers
+            db.session.add(user)
 
         if user.id in self.following:
             self.following.remove(user.id)
+            self.following=list(self.following)
+            db.session.add(self)
+
+        db.session.commit()
 
     def get_following_query(self):
         return User.query.filter(User.id.in_(self.following or set()))
@@ -164,7 +179,11 @@ class User(db.Model, UserMixin):
     def get_followers_query(self):
         return User.query.filter(User.id.in_(self.followers or set()))
 
-    # ================================================================
+    def is_following(self,follower):
+        return follower.id in self.following and self.id in follower.followers
+        
+
+# ================================================================
     # Class methods
 
     @classmethod
