@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import hashlib
+from datetime import datetime
 from flask import current_app
 from flask.ext.wtf import Form, ValidationError
 from flask.ext.wtf import (HiddenField, TextField, AnyOf, Optional,
@@ -44,7 +45,7 @@ class ProfileForm(Form):
     def create_profile(self,request,user):
 
         if self.avatar_file.data:
-            upload_file = request.files[form.avatar_file.name]
+            upload_file = request.files[self.avatar_file.name]
             if upload_file and allowed_file(upload_file.filename):
                 # Don't trust any input, we use a random string as filename.
                 # or use secure_filename:

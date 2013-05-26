@@ -14,6 +14,7 @@ from .api import api
 from .admin import admin
 from .extensions import db, mail, cache, login_manager, oid
 from .utils import INSTANCE_FOLDER_PATH
+from flask.ext.login import login_required, current_user
 
 
 # For import *
@@ -162,6 +163,17 @@ def configure_hook(app):
     @app.before_request
     def before_request():
         pass
+
+    @app.context_processor
+    def starred_messages():
+        star_messages = []
+        messages =  current_user.star_message
+        for message in messages:
+            star_messages.append(message.message_id)
+        return dict(star_messages = star_messages )
+
+
+
 
 
 def configure_error_handlers(app):

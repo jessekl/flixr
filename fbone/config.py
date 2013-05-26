@@ -28,7 +28,7 @@ class BaseConfig(object):
     # Limited the maximum allowed payload to 16 megabytes.
     # http://flask.pocoo.org/docs/patterns/fileuploads/#improving-uploads
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
-    UPLOAD_FOLDER = os.path.join(INSTANCE_FOLDER_PATH, 'uploads')
+    UPLOAD_FOLDER = os.path.join(PROJECT_ROOT, 'fbone/static/uploads')
     make_dir(UPLOAD_FOLDER)
 
 

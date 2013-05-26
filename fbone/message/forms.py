@@ -2,7 +2,7 @@ from flask.ext.wtf import (HiddenField, BooleanField, TextField,
         PasswordField, SubmitField)
 from flask.ext.wtf import Form, ValidationError
 from flask.ext.wtf import Required
-from .models import Message
+from .models import Message, StaredMessages
 from ..extensions import db
 
 class CreateMessageForm(Form):

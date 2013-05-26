@@ -128,3 +128,10 @@ table .headerSortUp:after {
     border: 0 !important
 }
 
+.messages img{
+    width: 50px;
+    height: auto;
+}
+ul.messages{
+    list-style: none;
+}
