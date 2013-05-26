@@ -167,9 +167,12 @@ def configure_hook(app):
     @app.context_processor
     def starred_messages():
         star_messages = []
-        messages =  current_user.star_message
-        for message in messages:
-            star_messages.append(message.message_id)
+        try:
+            messages =  current_user.star_message
+            for message in messages:
+                star_messages.append(message.message_id)
+        except:
+            pass
         return dict(star_messages = star_messages )
 
 
