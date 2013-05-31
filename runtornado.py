@@ -6,5 +6,5 @@ if __name__ == '__main__':
 	app = create_app()
 	app.debug = True
 	http_server = HTTPServer(WSGIContainer(app))
-	http_server.listen(5000)
+	http_server.listen(80)
 	IOLoop.instance().start()

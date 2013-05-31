@@ -15,9 +15,9 @@
       {{ message.text }}
       <small>&mdash; {{ message.pub_date|datetimeformat }}</small>
       {%if message.message_id in star_messages %}
-      <a href="{{ url_for('message.remove_star_message',message_id = message.message_id) }}"><img src="{{url_for('static', filename='img/fav_msg_icon.svg')}}"></img></a>
+      <a href="{{ url_for('message.remove_star_message',message_id = message.message_id) }}">✭</a>
         {% else %}
-        <a href="{{ url_for('message.add_star_message',message_id = message.message_id) }}"><img src="{{url_for('static', filename='img/nor_msg_icon.gif')}}"></img></a>
+        <a href="{{ url_for('message.add_star_message',message_id = message.message_id) }}">☆</a>
       {% endif %}
   {% else %}
     <li><em>There's no message so far.</em>
