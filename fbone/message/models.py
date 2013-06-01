@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import Column, ForeignKey, not_
 from sqlalchemy.orm import relationship
 from ..extensions import db
 from ..utils import get_current_time
@@ -37,6 +37,13 @@ class Message(db.Model):
             query = query.offset(offset)
         return query.all()
 
+    def get_response_message(cls,user,offset):
+        resp = MessageResponses()
+        ids = resp.get_responses_from_user(user.id)
+        return cls.query.filter(not_(Message.message_id.in_(ids))).offset(offset).first()
+     
+
+
 
 class StaredMessages(db.Model):
     __tablename__ = 'stared_messages'
@@ -60,3 +67,29 @@ class StaredMessages(db.Model):
         print message_id
         cls.query.filter_by(message_id=message_id).delete(synchronize_session='fetch')
         db.session.commit()
+
+class MessageResponses(db.Model):
+    __tablename__ = 'messages_responses'
+    id = Column(db.Integer, primary_key=True)
+    user_id = Column(db.Integer,ForeignKey('users.id', onupdate="CASCADE", ondelete="RESTRICT"), nullable=False)
+    message_id = Column(db.Integer,ForeignKey('message.message_id', onupdate="CASCADE", ondelete="RESTRICT"), nullable=False)
+    response = Column(db.Boolean)
+    publish_user = relationship('User', backref = 'messages_response', primaryjoin = "MessageResponses.user_id == User.id")
+    message = relationship('Message', backref = 'response', primaryjoin = "MessageResponses.message_id == Message.message_id")
+
+    def add(self,user_id,message_id,response):
+        self.user_id = user_id
+        self.message_id = message_id
+        self.response = response
+        db.session.add(self)
+        db.session.commit()
+
+    def get_responses_from_user(cls,user_id):
+        query = cls.query.with_entities(MessageResponses.message_id).filter(MessageResponses.user_id == user_id)
+        messages=query.all()
+        return [x.message_id for x in messages]
+
+    
+
+
+

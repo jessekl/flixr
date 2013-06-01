@@ -1,2 +1,2 @@
-from .models import Message, StaredMessages
+from .models import Message, StaredMessages, MessageResponses
 from .views import message

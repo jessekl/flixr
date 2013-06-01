@@ -1,8 +1,7 @@
-from flask.ext.wtf import (HiddenField, BooleanField, TextField,
-        PasswordField, SubmitField)
-from flask.ext.wtf import Form, ValidationError
+from flask.ext.wtf import (HiddenField, BooleanField, TextField, RadioField,PasswordField, SubmitField)
+from flask.ext.wtf import Form, ValidationError, widgets
 from flask.ext.wtf import Required
-from .models import Message, StaredMessages
+from .models import Message, StaredMessages, MessageResponses
 from ..extensions import db
 
 class CreateMessageForm(Form):
@@ -18,3 +17,19 @@ class CreateMessageForm(Form):
 
         db.session.add(message)
         db.session.commit() 
+
+
+class ResponseMessageForm(Form):
+    list_options = [(True,'yes'),(False,'no')]
+    message_id = HiddenField()
+    offset = HiddenField()
+    response = RadioField('Whats your take ?', choices=list_options,)
+    submit = SubmitField(u'Submit') 
+
+    def add_response(self,user):
+        print "ali"
+        self.populate_obj(user)
+        response = MessageResponses()
+        response.add(user_id = user.id,
+                    message_id = self.data["message_id"],
+                    response = self.response.data)
