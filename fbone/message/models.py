@@ -81,7 +81,7 @@ class MessageResponses(db.Model):
     def add(self,user_id,message_id,response,comment):
         self.user_id = user_id
         self.message_id = message_id
-        self.response = response
+	self.response = response in ['True',True]
         self.comment = comment
         db.session.add(self)
         db.session.commit()
