@@ -40,8 +40,8 @@ class DefaultConfig(BaseConfig):
     # Flask-Sqlalchemy: http://packages.python.org/Flask-SQLAlchemy/config.html
     SQLALCHEMY_ECHO = True
     # SQLITE for prototyping.
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + INSTANCE_FOLDER_PATH + '/db.sqlite'
-    #SQLALCHEMY_DATABASE_URI = 'postgres://ss:ss@192.168.1.12/manekineko'
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + INSTANCE_FOLDER_PATH + '/db.sqlite'
+    SQLALCHEMY_DATABASE_URI = 'postgres://ss:ss@192.168.1.12/manekineko'
     # MYSQL for production.
     #SQLALCHEMY_DATABASE_URI = 'mysql://username:password@server/db?charset=utf8'
 

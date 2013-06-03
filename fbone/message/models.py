@@ -73,14 +73,16 @@ class MessageResponses(db.Model):
     id = Column(db.Integer, primary_key=True)
     user_id = Column(db.Integer,ForeignKey('users.id', onupdate="CASCADE", ondelete="RESTRICT"), nullable=False)
     message_id = Column(db.Integer,ForeignKey('message.message_id', onupdate="CASCADE", ondelete="RESTRICT"), nullable=False)
-    response = Column(db.Boolean)
+    response = Column(db.Boolean, nullable=True)
+    comment = Column(db.Text, nullable=True)
     publish_user = relationship('User', backref = 'messages_response', primaryjoin = "MessageResponses.user_id == User.id")
     message = relationship('Message', backref = 'response', primaryjoin = "MessageResponses.message_id == Message.message_id")
 
-    def add(self,user_id,message_id,response):
+    def add(self,user_id,message_id,response,comment):
         self.user_id = user_id
         self.message_id = message_id
         self.response = response
+        self.comment = comment
         db.session.add(self)
         db.session.commit()
 
@@ -89,7 +91,7 @@ class MessageResponses(db.Model):
         messages=query.all()
         return [x.message_id for x in messages]
 
-    
+
 
 
 

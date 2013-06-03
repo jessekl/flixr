@@ -24,12 +24,19 @@ class ResponseMessageForm(Form):
     message_id = HiddenField()
     offset = HiddenField()
     response = RadioField('Whats your take ?', choices=list_options,)
+    comment = TextField("Comment",description=u"What do you have to say about this post")
     submit = SubmitField(u'Submit') 
 
     def add_response(self,user):
-        print "ali"
         self.populate_obj(user)
+        comment = self.comment.data
+        resp = self.response.data
+        resp = None if resp == "None" else resp
+        if(comment == '' and resp == None):
+            return False
         response = MessageResponses()
         response.add(user_id = user.id,
                     message_id = self.data["message_id"],
-                    response = self.response.data)
+                    comment = comment,
+                    response = resp)
+        return True
