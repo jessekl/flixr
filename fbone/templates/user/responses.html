@@ -7,7 +7,7 @@
 {% block body %}
   <ul class=messages>
     {% if message == None %}
-       There are no messages left
+       {{_('There are no messages left')}}
     {% else %}
     <li>
       <img src ="{{url_for('static', filename='uploads/')}}user_{{message.user_id}}/{{message.publish_user.avatar }}">

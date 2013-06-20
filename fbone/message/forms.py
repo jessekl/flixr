@@ -1,13 +1,14 @@
 from flask.ext.wtf import (HiddenField, BooleanField, TextField, RadioField,PasswordField, SubmitField)
 from flask.ext.wtf import Form, ValidationError, widgets
 from flask.ext.wtf import Required
+from flaskext.babel import lazy_gettext as _
 from .models import Message, StaredMessages, MessageResponses
 from ..extensions import db
 
 class CreateMessageForm(Form):
-    text = TextField(u'What\'s on your mind', [Required()],
-            description=u"Post will appear on your time line") 
-    submit = SubmitField(u'Share')  
+    text = TextField(_('What\'s on your mind'), [Required()],
+            description=_("Post will appear on your time line")) 
+    submit = SubmitField(_('Share'))  
 
     def add_message(self,user):
     	self.populate_obj(user)
@@ -23,9 +24,9 @@ class ResponseMessageForm(Form):
     list_options = [(True,'yes'),(False,'no')]
     message_id = HiddenField()
     offset = HiddenField()
-    response = RadioField('Whats your take ?', choices=list_options,)
-    comment = TextField("Comment",description=u"What do you have to say about this post")
-    submit = SubmitField(u'Submit') 
+    response = RadioField(_('Whats your take ?'), choices=list_options,)
+    comment = TextField(_("Comment"),description=_("What do you have to say about this post"))
+    submit = SubmitField(_('Submit')) 
 
     def add_response(self,user):
         self.populate_obj(user)

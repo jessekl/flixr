@@ -6,6 +6,7 @@ from flask.ext.wtf import Form, ValidationError
 from flask.ext.wtf import (HiddenField, BooleanField, TextField,
         PasswordField, SubmitField)
 from flask import current_app
+from flaskext.babel import lazy_gettext as _
 from flask.ext.wtf import Required, Length, EqualTo, Email
 from flask.ext.wtf.html5 import EmailField
 from ..user import User, UserDetail
@@ -17,31 +18,31 @@ from ..extensions import db
 
 class LoginForm(Form):
     next = HiddenField()
-    login = TextField(u'Username or email', [Required()])
-    password = PasswordField('Password', [Required(), Length(PASSWORD_LEN_MIN, PASSWORD_LEN_MAX)])
-    remember = BooleanField('Remember me')
-    submit = SubmitField('Sign in')
+    login = TextField(_('Username or email'), [Required()])
+    password = PasswordField(_('Password'), [Required(), Length(PASSWORD_LEN_MIN, PASSWORD_LEN_MAX)])
+    remember = BooleanField(_('Remember me'))
+    submit = SubmitField(_('Sign in'))
 
 
 class SignupForm(Form):
     next = HiddenField()
-    email = EmailField(u'Email', [Required(), Email()],
-            description=u"What's your email address?")
-    password = PasswordField(u'Password', [Required(), Length(PASSWORD_LEN_MIN, PASSWORD_LEN_MAX)],
-            description=u'%s characters or more! Be tricky.' % PASSWORD_LEN_MIN)
-    name = TextField(u'Choose your username', [Required(), Length(USERNAME_LEN_MIN, USERNAME_LEN_MAX)],
-            description=u"Don't worry. you can change it later.")
-    agree = BooleanField(u'Agree to the ' +
-        Markup('<a target="blank" href="/terms">Terms of Service</a>'), [Required()])
+    email = EmailField(_('Email'), [Required(), Email()],
+            description=_("What's your email address?"))
+    password = PasswordField(_('Password'), [Required(), Length(PASSWORD_LEN_MIN, PASSWORD_LEN_MAX)],
+            description=_('%(minChar)s characters or more! Be tricky.', minChar = PASSWORD_LEN_MIN) )
+    name = TextField(_('Choose your username'), [Required(), Length(USERNAME_LEN_MIN, USERNAME_LEN_MAX)],
+            description=_("Don't worry. you can change it later."))
+    agree = BooleanField(_('Agree to the ') +
+        Markup('<a target="blank" href="/terms">'+_('Terms of Service')+'</a>'), [Required()])
     submit = SubmitField('Sign up')
 
     def validate_name(self, field):
         if User.query.filter_by(name=field.data).first() is not None:
-            raise ValidationError(u'This username is taken')
+            raise ValidationError(_('This username is taken'))
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first() is not None:
-            raise ValidationError(u'This email is taken')
+            raise ValidationError(_('This email is taken'))
 
     def signup(self):
         user = User()
@@ -53,31 +54,31 @@ class SignupForm(Form):
 
 
 class RecoverPasswordForm(Form):
-    email = EmailField(u'Your email', [Email()])
-    submit = SubmitField('Send instructions')
+    email = EmailField(_('Your email'), [Email()])
+    submit = SubmitField(_('Send instructions'))
 
 
 
 
 class ChangePasswordForm(Form):
     activation_key = HiddenField()
-    password = PasswordField(u'Password', [Required()])
-    password_again = PasswordField(u'Password again', [EqualTo('password', message="Passwords don't match")])
-    submit = SubmitField('Save')
+    password = PasswordField(_('Password'), [Required()])
+    password_again = PasswordField(_('Password again'), [EqualTo('password', message="Passwords don't match")])
+    submit = SubmitField(_('Save'))
 
 
 
 
 class ReauthForm(Form):
     next = HiddenField()
-    password = PasswordField(u'Password', [Required(), Length(PASSWORD_LEN_MIN, PASSWORD_LEN_MAX)])
-    submit = SubmitField('Reauthenticate')
+    password = PasswordField(_('Password'), [Required(), Length(PASSWORD_LEN_MIN, PASSWORD_LEN_MAX)])
+    submit = SubmitField(_('Reauthenticate'))
 
 
 
 class OpenIDForm(Form):
-    openid = TextField(u'Your OpenID', [Required()])
-    submit = SubmitField(u'Log in with OpenID')
+    openid = TextField(_('Your OpenID'), [Required()])
+    submit = SubmitField(_('Log in with OpenID'))
 
     def login(self,oid):
         openid = self.openid.data
@@ -87,20 +88,20 @@ class OpenIDForm(Form):
 
 class CreateProfileForm(Form):
     openid = HiddenField()
-    name = TextField(u'Choose your username', [Required(), Length(USERNAME_LEN_MIN, USERNAME_LEN_MAX)],
-            description=u"Don't worry. you can change it later.")
-    email = EmailField(u'Email', [Required(), Email()], description=u"What's your email address?")
-    password = PasswordField(u'Password', [Required(), Length(PASSWORD_LEN_MIN, PASSWORD_LEN_MAX)],
-            description=u'%s characters or more! Be tricky.' % PASSWORD_LEN_MIN)
-    submit = SubmitField(u'Create Profile')
+    name = TextField(_('Choose your username'), [Required(), Length(USERNAME_LEN_MIN, USERNAME_LEN_MAX)],
+            description=_("Don't worry. you can change it later."))
+    email = EmailField(_('Email'), [Required(), Email()], description=_("What's your email address?"))
+    password = PasswordField(_('Password'), [Required(), Length(PASSWORD_LEN_MIN, PASSWORD_LEN_MAX)],
+            description=_('%(minChar)s characters or more! Be tricky.',minChar =PASSWORD_LEN_MIN))
+    submit = SubmitField(_('Create Profile'))
 
     def validate_name(self, field):
         if User.query.filter_by(name=field.data).first() is not None:
-            raise ValidationError(u'This username is taken.')
+            raise ValidationError(_('This username is taken.'))
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first() is not None:
-            raise ValidationError(u'This email is taken.')
+            raise ValidationError(_('This email is taken.'))
 
     def create_profile(self):
         user = User()
