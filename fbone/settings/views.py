@@ -7,6 +7,7 @@ from datetime import datetime
 
 from flask import Blueprint, render_template, current_app, request, flash
 from flask.ext.login import login_required, current_user
+from flaskext.babel import gettext as _
 
 from ..user import User
 from ..utils import allowed_file, make_dir
@@ -45,7 +46,7 @@ def password():
     if form.validate_on_submit():
         form.update_password(user)
 
-        flash('Password updated.', 'success')
+        flash(_('Password updated.'), 'success')
 
     return render_template('settings/password.html', user=user,
             active="password", form=form)

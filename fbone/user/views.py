@@ -4,6 +4,7 @@ import os
 
 from flask import Blueprint, render_template, send_from_directory, abort, redirect, url_for, request, flash
 from flask import current_app as APP
+from flaskext.babel import gettext as _
 from flask.ext.login import login_required, current_user
 from fbone.message.forms import CreateMessageForm, ResponseMessageForm
 from fbone.message.models import Message
@@ -51,7 +52,7 @@ def avatar(user_id, filename):
 def follow_user(user_id):
     user = User.get_by_id(user_id)
     current_user.follow(user)
-    flash("You are now following %s"%user.name,'success')
+    flash(_("You are now following") +" %s"%user.name,'success')
     return render_template('user/profile.html', user=user,current_user=current_user,followed = current_user.is_following(user))
 
 @user.route('/unfollow_user/<int:user_id>')
@@ -59,7 +60,7 @@ def follow_user(user_id):
 def unfollow_user(user_id):
     user = User.get_by_id(user_id)
     current_user.unfollow(user)
-    flash("You are now not following %s"%user.name,'success')
+    flash(_("You are now not following")+" %s"%user.name,'success')
     return render_template('user/profile.html', user=user,current_user=current_user,followed = current_user.is_following(user))
 
 

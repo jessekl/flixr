@@ -48,15 +48,15 @@
                             {% else %}
                             <li><a href="{{ url_for('user.index') }}">{{ current_user.name }}</a></li>
                             {% endif %}
-                            <li><a href="{{ url_for('settings.profile') }}">Settings</a></li>
-                            <li><a href="{{ url_for('frontend.logout') }}">Log out</a></li>
+                            <li><a href="{{ url_for('settings.profile') }}">{{_('Settings')}}</a></li>
+                            <li><a href="{{ url_for('frontend.logout') }}">{{_('Log out')}}</a></li>
                         </ul>
                     </div>
                     {% else %}
                     <div class="nav-collapse collapse pull-right">
                         <ul class="nav">
-                            <li><span><a class="btn btn-success" href="{{ url_for('frontend.signup') }}"><strong>Sign up</strong></a></span></li>
-                            <li><a href="{{ url_for('frontend.login') }}">Sign in</a></li>
+                            <li><span><a class="btn btn-success" href="{{ url_for('frontend.signup') }}"><strong>{{_('Sign up')}}</strong></a></span></li>
+                            <li><a href="{{ url_for('frontend.login') }}">{{_('Sign in')}}</a></li>
                         </ul>
                     </div>
                     {% endif %}
@@ -109,14 +109,14 @@
 
     <footer id="footer">
         <ul class="footer-links">
-            <li>© 2013</li>
-            <li><a href='https://github.com/imwilsonxu/fbone'>About</a></li>
+            <li>{{_('© 2013')}}</li>
+            <li><a href='https://github.com/imwilsonxu/fbone'>{{_('About')}}</a></li>
             <li class="muted">&middot;</li>
-            <li><a href='{{ url_for('frontend.help') }}'>Help</a></li>
+            <li><a href='{{ url_for('frontend.help') }}'>{{_('Help')}}</a></li>
             <li class="muted">&middot;</li>
-            <li><a href='https://github.com/imwilsonxu/fbone/blob/master/LICENSE'>Terms</a></li>
+            <li><a href='https://github.com/imwilsonxu/fbone/blob/master/LICENSE'>{{_('Terms')}}</a></li>
             <li class="muted">&middot;</li>
-            <li><a href='http://imwilsonxu.net'>Blog</a></li>
+            <li><a href='http://imwilsonxu.net'>{{_('Blog')}}</a></li>
         </ul>
     </footer>
 

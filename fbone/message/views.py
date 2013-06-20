@@ -5,6 +5,8 @@ import os
 
 from flask import Blueprint, render_template, send_from_directory, abort, redirect, url_for, request, flash
 from flask import current_app as app
+from flaskext.babel import gettext as _
+
 from flask.ext.login import login_required, current_user
 from .forms import CreateMessageForm, ResponseMessageForm
 from .models import Message, StaredMessages , MessageResponses
@@ -20,7 +22,7 @@ def add_message():
 	form = CreateMessageForm()
 	if form.validate_on_submit():
 		form.add_message(user)
-		flash("Your message has been added",'success')
+		flash(_("Your message has been added"),'success')
 	msg = Message()
 	return redirect(url_for('user.index'))
 
