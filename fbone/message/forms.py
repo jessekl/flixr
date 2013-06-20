@@ -34,7 +34,8 @@ class ResponseMessageForm(Form):
         resp = self.response.data
         resp = None if resp == "None" else resp
         if(comment == '' and resp == None):
-            return False
+            	print "testing"
+		return False
         response = MessageResponses()
         response.add(user_id = user.id,
                     message_id = self.data["message_id"],

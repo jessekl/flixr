@@ -24,7 +24,7 @@ def add_message():
 		form.add_message(user)
 		flash(_("Your message has been added"),'success')
 	msg = Message()
-	return render_template('user/index.html', form=form, user=user,messages = msg.get_all_messages())
+	return redirect(url_for('user.index'))
 
 @message.route('/add_starred_message/<int:message_id>/<int:offset>', methods=['GET'])
 def add_star_message(message_id,offset):
