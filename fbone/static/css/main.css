@@ -135,3 +135,9 @@ table .headerSortUp:after {
 ul.messages{
     list-style: none;
 }
+div#message-responses{
+    width:90%;
+}
+div.response-stats{
+    width: 90%;
+}

@@ -26,6 +26,8 @@ def index(offset = 0):
     messages = message.get_all_messages()
     msg = Message()
     msg = msg.get_response_message(current_user,offset)
+    print msg
+    print "3124"
     if(msg is not None):
         form = ResponseMessageForm(offset = offset,message_id = msg.message_id)
     else:
@@ -36,8 +38,13 @@ def index(offset = 0):
 
 @user.route('/<int:user_id>/profile')
 def profile(user_id):
+    print "wooot"
     user = User.get_by_id(user_id)
-    return render_template('user/profile.html', user=user,current_user=current_user,followed = current_user.is_following(user))
+    message = Message()
+    msgs = message.get_message_from_user(user)
+    print msgs
+    print "hereereasf"
+    return render_template('user/profile.html', user=user,messages= msgs,current_user=current_user,followed = current_user.is_following(user))
 
 
 @user.route('/<int:user_id>/avatar/<path:filename>')

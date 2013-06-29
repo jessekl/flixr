@@ -9,8 +9,8 @@ from flaskext.babel import gettext as _
 
 from flask.ext.login import login_required, current_user
 from .forms import CreateMessageForm, ResponseMessageForm
-from .models import Message, StaredMessages , MessageResponses
-
+from .models import Message, StaredMessages 
+import json
 
 message = Blueprint('message', __name__, url_prefix='/message')
 
@@ -43,17 +43,19 @@ def remove_star_message(message_id,offset):
 	star_message.delete_by_id(message_id)
 	return redirect(url_for('user.index',offset = offset))
 
+# Get Next Message to record responses
 @message.route('/message_response', methods=['GET'])
 @message.route('/message_response/<int:offset>', methods=['GET'])
 def message_response(offset=0):
 	user = current_user
 	msg = Message()
 	msg = msg.get_response_message(user,offset)
+	print msg 
 	if(msg is not None):
 		form = ResponseMessageForm(offset = offset,message_id = msg.message_id)
 	else:
 		form = ResponseMessageForm(offset = offset)
-	return render_template('user/responses.html', user=user,message = msg,offset=offset,form=form)
+	return render_template('user/responses.html', user=user,message = msg,offset=offset,response_form=form)
 
 @message.route('/message_response', methods=['POST'])
 def add_message_response():
@@ -71,6 +73,19 @@ def add_message_response():
 		form.message_id.data = msg.message_id
 	return redirect(url_for('user.index',offset = offset))
 
+@message.route('/<int:id>', methods=['GET'])
+def get(id):
+	msg = Message()
+	msg = msg.get_by_id(id)
+	form = ResponseMessageForm(offset = 0)
+	return re
 
 
+
+@message.route('/responses/<int:id>', methods=['GET'])
+def get_responses(id):
+	msg = Message()
+	messages =  msg.get_responses(id)
+	messages = [{'id':x.message_id,'text':x.text,'response':x.response} for x in messages]
+	return json.dumps(messages)
 

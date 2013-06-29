@@ -2,7 +2,7 @@ from flask.ext.wtf import (HiddenField, BooleanField, TextField, RadioField,Pass
 from flask.ext.wtf import Form, ValidationError, widgets
 from flask.ext.wtf import Required
 from flaskext.babel import lazy_gettext as _
-from .models import Message, StaredMessages, MessageResponses
+from .models import Message, StaredMessages
 from ..extensions import db
 
 class CreateMessageForm(Form):
@@ -36,9 +36,10 @@ class ResponseMessageForm(Form):
         if(comment == '' and resp == None):
             	print "testing"
 		return False
-        response = MessageResponses()
-        response.add(user_id = user.id,
-                    message_id = self.data["message_id"],
-                    comment = comment,
-                    response = resp)
+        response = Message()
+        response.user_id = user.id
+        response.parent_id = self.data["message_id"]
+        response.text = comment
+        response.response = resp
+        response.save()
         return True

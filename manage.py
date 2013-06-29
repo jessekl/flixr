@@ -5,7 +5,7 @@ from flask.ext.script import Manager
 from fbone import create_app
 from fbone.extensions import db
 from fbone.user import User, UserDetail, ADMIN, ACTIVE
-from fbone.message import Message, StaredMessages, MessageResponses
+from fbone.message import Message, StaredMessages
 from fbone.utils import MALE
 
 

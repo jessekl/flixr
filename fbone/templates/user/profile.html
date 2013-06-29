@@ -17,11 +17,11 @@
           }}">{{_('Follow user')}}</a>.
 {% endif %}
   <ul class=messages>
-  {% for message in user.message %}
+  {% for message in messages %}
     <li>{{ message.text }}
       <small>&mdash; {{ message.pub_date|datetimeformat }}</small>
   {% else %}
-    <li><em>{{_('There's no message so far.')}}</em>
+    <li><em>{{_('There\'s no message so far.')}}</em>
   {% endfor %}
   </ul>
 {% endblock %}

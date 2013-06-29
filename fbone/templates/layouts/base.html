@@ -24,8 +24,17 @@
     {% endblock %}
 
     {% block js_top %}
-    <script src="//upcdn.b0.upaiyun.com/libs/modernizr/modernizr-2.6.2.min.js"></script>
+        <script src="//upcdn.b0.upaiyun.com/libs/modernizr/modernizr-2.6.2.min.js"></script>
+        <script type=text/javascript>
+          var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        </script>
+
     {% endblock %}
+
+
+
+
+
 </head>
 <body>
     {% include "macros/_ask_user_to_update_ie.html" %}
@@ -120,6 +129,7 @@
         </ul>
     </footer>
 
+
     {% block js_btm %}
     <script src="//upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.0.min.js"></script>
     <!--
@@ -130,6 +140,10 @@
     <script src="{{ url_for('static', filename='js/vendor/bootstrap.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% endblock %}
+
+{% block extra_js %}
+    {% endblock %}
+
 
     {% block ga %}
     {% include "macros/_google_analytics.html" %}

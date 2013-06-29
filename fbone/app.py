@@ -171,7 +171,6 @@ def configure_hook(app):
             for message in messages:
                 star_messages.append(message.message_id)
         except:
-	    print "here"
             pass
         return dict(star_messages = star_messages )
 
