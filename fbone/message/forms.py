@@ -2,8 +2,9 @@ from flask.ext.wtf import (HiddenField, BooleanField, TextField, RadioField,Pass
 from flask.ext.wtf import Form, ValidationError, widgets
 from flask.ext.wtf import Required
 from flaskext.babel import lazy_gettext as _
-from .models import Message, StaredMessages
+from .models import Message, StaredMessages, TimeLine
 from ..extensions import db
+from datetime import datetime
 
 class CreateMessageForm(Form):
     text = TextField(_('What\'s on your mind'), [Required()],
@@ -16,6 +17,7 @@ class CreateMessageForm(Form):
         message.text = self.text.data
         message.user_id = user.id
 
+
         db.session.add(message)
         db.session.commit() 
 
@@ -24,22 +26,30 @@ class ResponseMessageForm(Form):
     list_options = [(True,'yes'),(False,'no')]
     message_id = HiddenField()
     offset = HiddenField()
-    response = RadioField(_('Whats your take ?'), choices=list_options,)
+    response = RadioField(_('Whats your take ?'),[Required()], choices=list_options)
     comment = TextField(_("Comment"),description=_("What do you have to say about this post"))
     submit = SubmitField(_('Submit')) 
 
-    def add_response(self,user):
+    def add_response(self,user,parent_id):
         self.populate_obj(user)
         comment = self.comment.data
         resp = self.response.data
         resp = None if resp == "None" else resp
+        if resp:
+            timeline = TimeLine()
+            timeline.add(user.id, parent_id, agreed = True)
+
         if(comment == '' and resp == None):
-            	print "testing"
-		return False
+    		return False
+        parent = Message()
+        parent = parent.get_by_id(parent_id)
         response = Message()
+        response.root_id = parent_id if parent.root_id is None else parent_id.root_id
         response.user_id = user.id
-        response.parent_id = self.data["message_id"]
+        response.parent_id = parent_id
         response.text = comment
         response.response = resp
         response.save()
+        parent.last_activity = response.last_activity
+        parent.save()
         return True

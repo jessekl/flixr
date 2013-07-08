@@ -27,6 +27,8 @@ setup(
         'Flask-OpenID',
         'nose',
         'mysql-python',
+        'tornado',
+        'psycopg2'
     ],
     classifiers=[
         'Environment :: Web Environment',

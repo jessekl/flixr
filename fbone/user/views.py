@@ -24,26 +24,20 @@ def index(offset = 0):
     create_form = CreateMessageForm()
     message = Message()
     messages = message.get_all_messages()
-    msg = Message()
-    msg = msg.get_response_message(current_user,offset)
-    print msg
-    print "3124"
-    if(msg is not None):
-        form = ResponseMessageForm(offset = offset,message_id = msg.message_id)
-    else:
-        form = ResponseMessageForm(offset = offset)
-    return render_template('user/index.html', user=current_user,form=create_form,response_form = form,message=msg,offset=offset)
+    msgs = Message()
+    msgs = msgs.get_messages_feed(current_user)
+    print "test:"
+    print msgs
+    form = ResponseMessageForm(offset = offset)
+    return render_template('user/index.html', user=current_user,form=create_form,response_form = form,messages=msgs,offset=offset)
 
 
 
 @user.route('/<int:user_id>/profile')
 def profile(user_id):
-    print "wooot"
     user = User.get_by_id(user_id)
     message = Message()
     msgs = message.get_message_from_user(user)
-    print msgs
-    print "hereereasf"
     return render_template('user/profile.html', user=user,messages= msgs,current_user=current_user,followed = current_user.is_following(user))
 
 

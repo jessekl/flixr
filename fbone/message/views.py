@@ -9,7 +9,7 @@ from flaskext.babel import gettext as _
 
 from flask.ext.login import login_required, current_user
 from .forms import CreateMessageForm, ResponseMessageForm
-from .models import Message, StaredMessages 
+from .models import Message, StaredMessages, TimeLine
 import json
 
 message = Blueprint('message', __name__, url_prefix='/message')
@@ -34,6 +34,8 @@ def add_star_message(message_id,offset):
 		user_id = current_user.id,
 		message_id = message_id
 		)
+	timeline = TimeLine()
+	timeline.add(current_user.id, message_id, starred = True)
 	return redirect(url_for('user.index',offset = offset))
 
 @message.route('/remove_starred_message/<int:message_id>/<int:offset>', methods=['GET'])
@@ -57,21 +59,17 @@ def message_response(offset=0):
 		form = ResponseMessageForm(offset = offset)
 	return render_template('user/responses.html', user=user,message = msg,offset=offset,response_form=form)
 
-@message.route('/message_response', methods=['POST'])
-def add_message_response():
+@message.route('/message_response/<int:parent_id>', methods=['POST'])
+def add_message_response(parent_id):
 	user = current_user
 	form = ResponseMessageForm()
 	msg = Message()
-	offset = int(form.data["offset"])
-	if(form.add_response(user) == False):
-		offset = offset + 1
-	msg = msg.get_response_message(user,offset)
-	if(msg is None and offset > 0):
-		msg = Message()
-		msg = msg.get_response_message(user,0)
-	if(msg is not None):
-		form.message_id.data = msg.message_id
-	return redirect(url_for('user.index',offset = offset))
+	# try:
+	form.add_response(user,parent_id)
+	# except Exception as e:
+	# 	print e
+	# 	abort(500,e)
+	return redirect(url_for('user.index',offset = 0))
 
 @message.route('/<int:id>', methods=['GET'])
 def get(id):
