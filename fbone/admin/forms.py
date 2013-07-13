@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask.ext.wtf import Form
-from flask.ext.wtf import HiddenField, SubmitField, RadioField, DateField
+from flask.ext.wtf import HiddenField, SubmitField, RadioField, DateField , FileField
 from flask.ext.wtf import AnyOf
 from ..extensions import db
 
@@ -24,3 +24,8 @@ class UserForm(Form):
         db.session.commit()
 
 
+class EditTranslationForm(Form):
+    multipart = True
+    file = FileField(u"Upload Translation File")
+    language = HiddenField()
+    submit = SubmitField(u'Save')

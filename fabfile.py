@@ -31,6 +31,7 @@ def setup():
 
     apt_get("python-pip libmysqlclient-dev python-dev postgresql-9.1")
     local("apt-get -y build-dep python-psycopg2")
+    local("virtualenv env")
     activate_this = "env/bin/activate_this.py"
     execfile(activate_this, dict(__file__=activate_this))
     local("python setup.py install")
