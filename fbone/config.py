@@ -29,6 +29,9 @@ class BaseConfig(object):
     # http://flask.pocoo.org/docs/patterns/fileuploads/#improving-uploads
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     UPLOAD_FOLDER = os.path.join(PROJECT_ROOT, 'fbone/static/uploads')
+    TRANSLATIONS_FOLDER = os.path.join(PROJECT_ROOT, 'fbone/translations')
+    TRANSLATIONS_PATH = 'LC_MESSAGES/'
+    TRANSALTIONS_FILE = 'messages.po'
     make_dir(UPLOAD_FOLDER)
 
 
@@ -41,7 +44,7 @@ class DefaultConfig(BaseConfig):
     SQLALCHEMY_ECHO = True
     # SQLITE for prototyping.
     # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + INSTANCE_FOLDER_PATH + '/db.sqlite'
-    SQLALCHEMY_DATABASE_URI = 'postgres://ss:ss@192.168.1.12/manekineko'
+    SQLALCHEMY_DATABASE_URI = 'postgres://ss:ss@localhost/manekineko'
     # MYSQL for production.
     #SQLALCHEMY_DATABASE_URI = 'mysql://username:password@server/db?charset=utf8'
 
