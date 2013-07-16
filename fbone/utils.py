@@ -107,3 +107,7 @@ def remove_duplicates(lst):
     # relies on the fact that dset.add() always returns None.
     return [ l for l in lst if 
              l not in dset and not dset.add(l) ] 
+
+def diff(mainlist,slist):
+    diff = list(set(mainlist) - set(slist))
+    return [x for x in mainlist if x in diff]

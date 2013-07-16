@@ -141,3 +141,6 @@ div#message-responses{
 div.response-stats{
     width: 90%;
 }
+hr{
+border-top: 3px solid #eeeeee;
+}
