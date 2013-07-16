@@ -101,3 +101,9 @@ def make_dir(dir_path):
             os.mkdir(dir_path)
     except Exception, e:
         raise e
+
+def remove_duplicates(lst):
+    dset = set()
+    # relies on the fact that dset.add() always returns None.
+    return [ l for l in lst if 
+             l not in dset and not dset.add(l) ] 

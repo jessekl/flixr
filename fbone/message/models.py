@@ -3,7 +3,7 @@
 from sqlalchemy import Column, ForeignKey, not_
 from sqlalchemy.orm import relationship
 from ..extensions import db
-from ..utils import get_current_time
+from ..utils import get_current_time, remove_duplicates
 from fbone.user.models import User
 
 class Message(db.Model):
@@ -59,18 +59,18 @@ class Message(db.Model):
         # stared_messages = star_messages.get_user_starred_messages(user.id)
         # stared_messages = [cls.get_by_id(x) for x in stared_messages]
 
-        new_messages = list(set(new_messages) - set(stared_messages))
+        # new_messages = list(set(new_messages) - set(stared_messages))
 
         ##Get the messages that the user has replied to
         replied_messages = TimeLine()
         replied_messages = replied_messages.get_user_agreed_messages(user.id)
         replied_messages = cls.get_all_ordered_by_activity(replied_messages)    
 
-        stared_messages = list(set(stared_messages)-set(replied_messages))
+        # stared_messages = list(set(stared_messages)-set(replied_messages))
         print "new_messages:%s"%new_messages
         print "stared_messages:%s"%stared_messages
         print "replied_messages:%s"%replied_messages
-        return replied_messages + new_messages + stared_messages 
+        return remove_duplicates(replied_messages + new_messages + stared_messages )
   
 
 
