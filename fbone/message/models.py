@@ -81,10 +81,10 @@ class Message(db.Model):
         ids = [x.parent_id for x in ids]
         ids = filter(lambda x: x is not None ,ids)
         # Gell all messages whose parent Ids are none i.e they are root messages and specifically the ones which the user hasn't replied too
-        return cls.query.filter(Message.parent_id == None).filter(not_(Message.message_id.in_(ids))).order_by(Message.last_activity).offset(offset).limit(5).all()
+        return cls.query.filter(Message.parent_id == None).filter(not_(Message.message_id.in_(ids))).order_by(Message.last_activity.desc()).offset(offset).limit(5).all()
     @classmethod
     def get_all_ordered_by_activity(cls,message_ids):
-        return cls.query.filter(Message.message_id.in_(message_ids)).order_by(Message.last_activity).limit(5).all() 
+        return cls.query.filter(Message.message_id.in_(message_ids)).order_by(Message.last_activity.desc()).limit(5).all() 
 
     def get_user_replied_messages(cls,user):
         parent_ids = cls.query.with_entities(Message.parent_id).filter_by(user_id = user.id).filter(not_(Message.parent_id == None)).all()
