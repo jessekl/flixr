@@ -24,6 +24,7 @@
 
 <h2> {{_('Hello')}}, {{ user.name }}!</h2>
 {{ render_form(url_for('message.add_message'), form) }}
+<strong><p class="text-info"> {{_('Accepted')}} </p></strong>
   <ul class=messages>
   {% for message in messages.replied_messages %}
     <li>
@@ -41,6 +42,7 @@
   </ul>
 
 <hr>
+<strong><p class="text-info"> {{_('Starred')}} </p></strong>
   <ul class=messages>
   {% for message in messages.stared_messages %}
     <li>
@@ -57,6 +59,7 @@
  {% endfor %}
   </ul>
 <hr>
+<strong><p class="text-info">{{_('New')}} </p></strong>
   <ul class=messages>
   {% for message in messages.new_messages %}
     <li>

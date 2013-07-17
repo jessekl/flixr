@@ -32,6 +32,7 @@ class BaseConfig(object):
     TRANSLATIONS_FOLDER = os.path.join(PROJECT_ROOT, 'fbone/translations')
     TRANSLATIONS_PATH = 'LC_MESSAGES/'
     TRANSALTIONS_FILE = 'messages.po'
+    LOGO_FILE = os.path.join(PROJECT_ROOT,'fbone/static/img/logo.png')
     make_dir(UPLOAD_FOLDER)
 
 

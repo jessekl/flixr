@@ -122,7 +122,10 @@ table .headerSortUp:after {
     -moz-opacity: 0.6;
     opacity: 0.6;
 }
-
+.logo{
+    height: 35px;
+    width: auto;
+}
 .table-borderless td,
 .table-borderless th{ 
     border: 0 !important

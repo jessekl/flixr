@@ -5,6 +5,6 @@
 {% block body %}
 <div class="container">
     <h2>Edit Translation</h2>
-    {{ render_form(url_for('admin.edit_translation', language="en"), form) }}
+    {{ render_form(url_for('admin.edit_translation', language=form.language.data), form) }}
 </div>
 {% endblock %}

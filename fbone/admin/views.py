@@ -6,7 +6,7 @@ from flaskext.babel import Babel
 from ..decorators import admin_required
 
 from ..user import User
-from .forms import UserForm, EditTranslationForm
+from .forms import UserForm, EditTranslationForm, UploadLogoForm
 
 from werkzeug import secure_filename
 
@@ -18,7 +18,8 @@ import os
 @admin_required
 def index():
     users = User.query.all()
-    return render_template('admin/index.html', users=users, active='index')
+    logo_form = UploadLogoForm()
+    return render_template('admin/index.html', users=users, active='index',logo_form=logo_form)
 
 
 @admin.route('/users')
@@ -48,7 +49,7 @@ def user(user_id):
 @login_required
 @admin_required
 def edit_translation(language):
-    form = EditTranslationForm()
+    form = EditTranslationForm(language = language)
     if form.validate_on_submit():
         file = request.files[form.file.name]  
         if file:
@@ -56,8 +57,7 @@ def edit_translation(language):
             file.save(os.path.join(current_app.config['TRANSLATIONS_FOLDER'], language,current_app.config['TRANSLATIONS_PATH'],current_app.config['TRANSALTIONS_FILE']))
             os.system("pybabel compile -f -d fbone/translations")
             flash("Translation File has been uploaded")
-            return redirect(url_for('admin.edit_translation',language=filename))
-    form.language.value = language
+            return redirect(url_for('admin.edit_translation',language=language))
     return render_template('admin/translation.html',form=form)
 
 @admin.route('/translations', methods=['GET'])
@@ -75,6 +75,18 @@ def existing_translation(language):
     return send_from_directory(os.path.join(current_app.config['TRANSLATIONS_FOLDER'],language,current_app.config['TRANSLATIONS_PATH']),current_app.config['TRANSALTIONS_FILE'])
 
 
+@admin.route('/logo', methods=['POST'])
+@login_required
+@admin_required
+def upload_logo():
+    form = UploadLogoForm()
+    if form.validate_on_submit():
+        file = request.files[form.file.name]  
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(current_app.config['LOGO_FILE'])
+            flash("Logo File has been uploaded")
+            return redirect(url_for('admin.index'))
 
 
 

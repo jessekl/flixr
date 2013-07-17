@@ -29,3 +29,9 @@ class EditTranslationForm(Form):
     file = FileField(u"Upload Translation File")
     language = HiddenField()
     submit = SubmitField(u'Save')
+
+
+class UploadLogoForm(Form):
+    multipart = True
+    file = FileField(u"Upload Logo File")
+    submit = SubmitField(u'Save')
