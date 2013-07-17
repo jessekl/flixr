@@ -20,6 +20,5 @@ production.py
 logs
 uploads
 openid
-config.py
 env
 logo.png
