@@ -28,7 +28,7 @@ def index(offset = 0):
     msgs = msgs.get_messages_feed(current_user)
     print "test:"
     print msgs
-    form = ResponseMessageForm(offset = offset)
+    form = ResponseMessageForm(offset = offset,yes='1',no='2')
     return render_template('user/index.html', user=current_user,form=create_form,response_form = form,messages=msgs,offset=offset)
 
 

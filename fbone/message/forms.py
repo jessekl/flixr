@@ -23,17 +23,16 @@ class CreateMessageForm(Form):
 
 
 class ResponseMessageForm(Form):
-    list_options = [(True,'yes'),(False,'no')]
     message_id = HiddenField()
     offset = HiddenField()
-    response = RadioField(_('Whats your take ?'),[Required()], choices=list_options)
     comment = TextField(_("Comment"),description=_("What do you have to say about this post"))
-    submit = SubmitField(_('Submit')) 
+    yes = SubmitField(_('Yes')) 
+    no = SubmitField(_('No')) 
 
     def add_response(self,user,parent_id):
         self.populate_obj(user)
         comment = self.comment.data
-        resp = self.response.data
+        resp = self.yes.data
         resp = None if resp == "None" else resp
         if resp:
             timeline = TimeLine()
