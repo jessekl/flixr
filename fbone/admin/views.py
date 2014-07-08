@@ -2,7 +2,7 @@
 
 from flask import Blueprint, render_template, request, flash, current_app, send_from_directory, redirect, url_for
 from flask.ext.login import login_required
-from flaskext.babel import Babel
+from flask.ext.babel import Babel
 from ..decorators import admin_required
 
 from ..user import User
@@ -51,7 +51,7 @@ def user(user_id):
 def edit_translation(language):
     form = EditTranslationForm(language = language)
     if form.validate_on_submit():
-        file = request.files[form.file.name]  
+        file = request.files[form.file.name]
         if file:
             filename = secure_filename(file.filename)
             file.save(os.path.join(current_app.config['TRANSLATIONS_FOLDER'], language,current_app.config['TRANSLATIONS_PATH'],current_app.config['TRANSALTIONS_FILE']))
@@ -81,7 +81,7 @@ def existing_translation(language):
 def upload_logo():
     form = UploadLogoForm()
     if form.validate_on_submit():
-        file = request.files[form.file.name]  
+        file = request.files[form.file.name]
         if file:
             filename = secure_filename(file.filename)
             file.save(current_app.config['LOGO_FILE'])

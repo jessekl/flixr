@@ -3,13 +3,13 @@ import os
 import hashlib
 from datetime import datetime
 from flask import current_app
-from flask.ext.wtf import Form, ValidationError
-from flask.ext.wtf import (HiddenField, TextField, AnyOf, Optional,
-        PasswordField, SubmitField, TextAreaField, IntegerField, RadioField,
-        FileField, DecimalField)
-from flaskext.babel import lazy_gettext as _
-from flask.ext.wtf import Required, Length, EqualTo, Email, NumberRange, URL
+from flask.ext.wtf import Form
 from flask.ext.wtf.html5 import URLField, EmailField, TelField
+from wtforms import (ValidationError, TextField, HiddenField, PasswordField,
+    SubmitField, TextAreaField, IntegerField, RadioField,FileField,
+    DecimalField, SelectField, DateField, Field, widgets)
+from wtforms.validators import (Required, Length, EqualTo, Email, NumberRange, AnyOf, Optional, URL)
+from flask.ext.babel import lazy_gettext as _
 from flask.ext.login import current_user
 
 from ..user import User

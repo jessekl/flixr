@@ -5,7 +5,7 @@ import os
 
 from flask import Blueprint, render_template, send_from_directory, abort, redirect, url_for, request, flash
 from flask import current_app as app
-from flaskext.babel import gettext as _
+from flask.ext.babel import gettext as _
 
 from flask.ext.login import login_required, current_user
 from .forms import CreateMessageForm, ResponseMessageForm
@@ -52,7 +52,7 @@ def message_response(offset=0):
 	user = current_user
 	msg = Message()
 	msg = msg.get_response_message(user,offset)
-	print msg 
+	print msg
 	if(msg is not None):
 		form = ResponseMessageForm(offset = offset,message_id = msg.message_id)
 	else:

@@ -2,13 +2,15 @@
 
 from flask import Markup, current_app
 
-from flask.ext.wtf import Form, ValidationError
-from flask.ext.wtf import (HiddenField, BooleanField, TextField,
-        PasswordField, SubmitField)
+from flask.ext.wtf import Form
+from flask.ext.wtf.html5 import URLField, EmailField, TelField
+from wtforms import (ValidationError, BooleanField, TextField, HiddenField, PasswordField,
+    SubmitField, TextAreaField, IntegerField, RadioField,FileField,
+    DecimalField, SelectField, DateField, Field, widgets)
+from wtforms.validators import (Required, Length, EqualTo, Email, NumberRange, AnyOf, Optional, URL)
 from flask import current_app
-from flaskext.babel import lazy_gettext as _
-from flask.ext.wtf import Required, Length, EqualTo, Email
-from flask.ext.wtf.html5 import EmailField
+from flask.ext.babel import lazy_gettext as _
+
 from ..user import User, UserDetail
 
 from ..user import User

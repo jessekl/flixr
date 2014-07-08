@@ -1,15 +1,20 @@
-from flask.ext.wtf import (HiddenField, BooleanField, TextField, RadioField,PasswordField, SubmitField)
-from flask.ext.wtf import Form, ValidationError, widgets
-from flask.ext.wtf import Required
-from flaskext.babel import lazy_gettext as _
+
+
+from flask.ext.wtf import Form
+from flask.ext.wtf.html5 import URLField, EmailField, TelField
+from wtforms import (ValidationError, TextField, HiddenField, PasswordField,
+    SubmitField, TextAreaField, IntegerField, RadioField,FileField,
+    DecimalField, SelectField, DateField, Field, widgets)
+from wtforms.validators import (Required, Length, EqualTo, Email, NumberRange, AnyOf, Optional)
+from flask.ext.babel import lazy_gettext as _
 from .models import Message, StaredMessages, TimeLine
 from ..extensions import db
 from datetime import datetime
 
 class CreateMessageForm(Form):
     text = TextField(_('What\'s on your mind'), [Required()],
-            description=_("Post will appear on your time line")) 
-    submit = SubmitField(_('Share'))  
+            description=_("Post will appear on your time line"))
+    submit = SubmitField(_('Share'))
 
     def add_message(self,user):
     	self.populate_obj(user)
@@ -19,15 +24,15 @@ class CreateMessageForm(Form):
 
 
         db.session.add(message)
-        db.session.commit() 
+        db.session.commit()
 
 
 class ResponseMessageForm(Form):
     message_id = HiddenField()
     offset = HiddenField()
     comment = TextField(_("Comment"),description=_("What do you have to say about this post"))
-    yes = SubmitField(_('Yes')) 
-    no = SubmitField(_('No')) 
+    yes = SubmitField(_('Yes'))
+    no = SubmitField(_('No'))
 
     def add_response(self,user,parent_id):
         self.populate_obj(user)

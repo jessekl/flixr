@@ -4,7 +4,7 @@ import os
 
 from flask import Blueprint, render_template, send_from_directory, abort, redirect, url_for, request, flash
 from flask import current_app as APP
-from flaskext.babel import gettext as _
+from flask.ext.babel import gettext as _
 from flask.ext.login import login_required, current_user
 from fbone.message.forms import CreateMessageForm, ResponseMessageForm
 from fbone.message.models import Message
