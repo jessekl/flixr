@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 from flask import Blueprint, render_template, request, flash, current_app, send_from_directory, redirect, url_for
 from flask.ext.login import login_required
 from flask.ext.babel import Babel
-from ..decorators import admin_required
-
-from ..user import User
-from .forms import UserForm, EditTranslationForm, UploadLogoForm
-
 from werkzeug import secure_filename
 
+from fbone.decorators import admin_required
+from fbone.modules.user import User
+from .forms import UserForm, EditTranslationForm, UploadLogoForm
+
+
 admin = Blueprint('admin', __name__, url_prefix='/admin')
-import os
 
 @admin.route('/')
 @login_required

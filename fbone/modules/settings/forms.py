@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+
 import os
 import hashlib
 from datetime import datetime
+
 from flask import current_app
 from flask.ext.wtf import Form
 from flask.ext.wtf.html5 import URLField, EmailField, TelField
@@ -12,11 +14,11 @@ from wtforms.validators import (Required, Length, EqualTo, Email, NumberRange, A
 from flask.ext.babel import lazy_gettext as _
 from flask.ext.login import current_user
 
-from ..user import User
-from ..utils import PASSWORD_LEN_MIN, PASSWORD_LEN_MAX, AGE_MIN, AGE_MAX, DEPOSIT_MIN, DEPOSIT_MAX
-from ..utils import allowed_file, ALLOWED_AVATAR_EXTENSIONS, make_dir
-from ..utils import GENDER_TYPE
-from ..extensions import db
+from fbone.utils import PASSWORD_LEN_MIN, PASSWORD_LEN_MAX, AGE_MIN, AGE_MAX, DEPOSIT_MIN, DEPOSIT_MAX
+from fbone.utils import allowed_file, ALLOWED_AVATAR_EXTENSIONS, make_dir
+from fbone.utils import GENDER_TYPE
+from fbone.extensions import db
+from fbone.modules.user import User
 
 
 class ProfileForm(Form):
@@ -29,7 +31,6 @@ class ProfileForm(Form):
     age = IntegerField(_('Age'), [Optional(), NumberRange(AGE_MIN, AGE_MAX)])
     phone = TelField(_('Phone'), [Length(max=64)])
     url = URLField(_('URL'), [Optional(), URL()])
-    deposit = DecimalField(_('Deposit'), [Optional(), NumberRange(DEPOSIT_MIN, DEPOSIT_MAX)])
     location = TextField(_('Location'), [Length(max=64)])
     bio = TextAreaField(_('Bio'), [Length(max=1024)])
     submit = SubmitField(_('Save'))

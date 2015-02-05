@@ -8,8 +8,8 @@ from flask.ext.mail import Message
 from flask.ext.login import login_required, login_user, current_user, logout_user, confirm_login, login_fresh
 from flask.ext.babel import gettext as _
 
-from ..user import User, UserDetail
-from ..extensions import  mail, login_manager
+from fbone.modules.user import User, UserDetail
+from fbone.extensions import  mail, login_manager
 from .forms import SignupForm, LoginForm, RecoverPasswordForm, ReauthForm, ChangePasswordForm, CreateProfileForm
 
 

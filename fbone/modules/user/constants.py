@@ -19,5 +19,3 @@ USER_STATUS = {
     NEW: 'new',
     ACTIVE: 'active',
 }
-
-DEFAULT_USER_AVATAR = 'default.jpg'

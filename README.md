@@ -55,47 +55,33 @@ Then open `http://127.0.0.1:5000`
 ```
 ## STRUCTURE
 
-    ├── CHANGES
-    ├── fabfile.py              (fabric file)
-    ├── fbone                   (main app)
-    │   ├── api                 (api module)
-    │   ├── app.py              (create flask app)
-    │   ├── config.py           (config module)
-    │   ├── decorators.py
-    │   ├── extensions.py       (init flask extensions)
-    │   ├── frontend            (frontend module)
-    │   ├── __init__.py
-    │   ├── settings            (settings module)
+    ├── fbone                       (main app)
+    │   ├── app.py                  (application factory)
+    │   ├── config.py               (config module)
+    │   ├── decorators.py           (route decorators)
+    │   ├── extensions.py           (flask extensions)
+    │   ├── modules                 (MVC modules)
+    │   │   ├── admin               (admin module)
+    │   │   ├── api                 (api module)
+    │   │   ├── frontend            (frontend module)
+    │   │   ├── settings            (settings module)
+    │   │   ├── user                (user module)
+    │   │   │   ├── __init__.py
+    │   │   │   ├── constants.py
+    │   │   │   ├── forms.py
+    │   │   │   ├── models.py
+    │   │   │   └── views.py
     │   ├── static
     │   │   ├── css
-    │   │   ├── favicon.png
-    │   │   ├── humans.txt
     │   │   ├── img
-    │   │   ├── js
-    │   │   └── robots.txt
+    │   │   └── js
     │   ├── templates
-    │   │   ├── errors
-    │   │   ├── frontend
-    │   │   ├── index.html
-    │   │   ├── layouts
-    │   │   ├── macros
-    │   │   ├── settings
-    │   │   └── user
-    │   ├── translations        (i18n)
-    │   ├── user                (user module)
-    │   │   ├── constants.py
-    │   │   ├── forms.py        (wtforms)
-    │   │   ├── __init__.py
-    │   │   ├── models.py
-    │   │   ├── views.py
+    │   ├── translations            (i18n)
     │   ├── utils.py
     ├── LICENSE
-    ├── manage.py               (manage via flask-script)
-    ├── MANIFEST.in
-    ├── README.markdown
-    ├── screenshots
-    ├── setup.py
-    └── tests                   (unit tests, run via `nosetest`)
+    ├── manage.py                   (manage via flask-script)
+    ├── README.md
+    └── tests                       (unit tests, run via `nosetest`)
 ```
 
 ## LICENSE

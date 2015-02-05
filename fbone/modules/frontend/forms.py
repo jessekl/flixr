@@ -11,12 +11,10 @@ from wtforms.validators import (Required, Length, EqualTo, Email, NumberRange, A
 from flask import current_app
 from flask.ext.babel import lazy_gettext as _
 
-from ..user import User, UserDetail
-
-from ..user import User
-from ..utils import (PASSWORD_LEN_MIN, PASSWORD_LEN_MAX,
+from fbone.modules.user import User, UserDetail
+from fbone.utils import (PASSWORD_LEN_MIN, PASSWORD_LEN_MAX,
         USERNAME_LEN_MIN, USERNAME_LEN_MAX)
-from ..extensions import db
+from fbone.extensions import db
 
 class LoginForm(Form):
     next = HiddenField()

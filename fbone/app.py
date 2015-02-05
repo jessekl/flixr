@@ -3,17 +3,17 @@
 import os
 
 from flask import Flask, request, render_template
+from flask.ext.login import login_required, current_user
 from flask.ext.babel import Babel
 
-from .config import DefaultConfig
-from .user import User, user
-from .settings import settings
-from .frontend import frontend
-from .api import api
-from .admin import admin
-from .extensions import db, mail, cache, login_manager
-from .utils import INSTANCE_FOLDER_PATH
-from flask.ext.login import login_required, current_user
+from fbone.config import DefaultConfig
+from fbone.modules.user import User, user
+from fbone.modules.settings import settings
+from fbone.modules.frontend import frontend
+from fbone.modules.api import api
+from fbone.modules.admin import admin
+from fbone.extensions import db, mail, cache, login_manager
+from fbone.utils import INSTANCE_FOLDER_PATH
 
 
 # For import *

@@ -5,9 +5,9 @@ from sqlalchemy.ext.mutable import Mutable
 from werkzeug import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 
-from ..types import DenormalizedText
-from ..extensions import db
-from ..utils import get_current_time, GENDER_TYPE, STRING_LEN
+from fbone.types import DenormalizedText
+from fbone.extensions import db
+from fbone.utils import get_current_time, GENDER_TYPE, STRING_LEN
 from .constants import USER, USER_ROLE, ADMIN, INACTIVE, USER_STATUS
 
 

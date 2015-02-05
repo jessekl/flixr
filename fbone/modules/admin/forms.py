@@ -6,9 +6,9 @@ from wtforms import (ValidationError, TextField, HiddenField, PasswordField,
     SubmitField, TextAreaField, IntegerField, RadioField,FileField,
     DecimalField, SelectField, DateField, Field, widgets)
 from wtforms.validators import (Required, Length, EqualTo, Email, NumberRange, AnyOf, Optional, URL)
-from ..extensions import db
 
-from ..user import USER_ROLE, USER_STATUS
+from fbone.extensions import db
+from fbone.modules.user import USER_ROLE, USER_STATUS
 
 
 class UserForm(Form):
