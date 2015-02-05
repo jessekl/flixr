@@ -65,12 +65,12 @@ Then open `http://127.0.0.1:5000`
     │   │   ├── api                 (api module)
     │   │   ├── frontend            (frontend module)
     │   │   ├── settings            (settings module)
-    │   │   ├── user                (user module)
-    │   │   │   ├── __init__.py
-    │   │   │   ├── constants.py
-    │   │   │   ├── forms.py
-    │   │   │   ├── models.py
-    │   │   │   └── views.py
+    │   │   └── user                (user module)
+    │   │       ├── __init__.py
+    │   │       ├── constants.py
+    │   │       ├── forms.py
+    │   │       ├── models.py
+    │   │       └── views.py
     │   ├── static
     │   │   ├── css
     │   │   ├── img
