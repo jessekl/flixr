@@ -19,7 +19,7 @@ class BaseConfig(object):
     ADMINS = ['youremail@yourdomain.com']
 
     # http://flask.pocoo.org/docs/quickstart/#sessions
-    SECRET_KEY = 'secret key'
+    SECRET_KEY = 'youshouldreplacethis'
 
     LOG_FOLDER = os.path.join(INSTANCE_FOLDER_PATH, 'logs')
     make_dir(LOG_FOLDER)

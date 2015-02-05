@@ -5,7 +5,6 @@ from flask.ext.script import Manager
 from fbone import create_app
 from fbone.extensions import db
 from fbone.user import User, UserDetail, ADMIN, ACTIVE
-from fbone.message import Message, StaredMessages
 from fbone.utils import MALE
 
 
@@ -16,7 +15,6 @@ manager = Manager(app)
 @manager.command
 def run():
     """Run in local machine."""
-
     app.run(host='0.0.0.0')
 
 
@@ -34,12 +32,11 @@ def initdb():
             role_code=ADMIN,
             status_code=ACTIVE,
             user_detail=UserDetail(
-                sex_code=MALE,
-                age=10,
-                url=u'http://admin.example.com',
-                deposit=100.00,
-                location=u'Hangzhou',
-                bio=u'admin Guy is ... hmm ... just a admin guy.'))
+                gender_code=MALE,
+                age=32,
+                url=u'http://seminoles.com',
+                location=u'Tallahassee, FL',
+                bio=u'FSU Grad. Go Noles!'))
     db.session.add(admin)
     db.session.commit()
 

@@ -7,7 +7,6 @@ from datetime import datetime
 
 from flask import Blueprint, render_template, current_app, request, flash
 from flask.ext.login import login_required, current_user
-from flask.ext.babel import gettext as _
 
 from ..user import User
 from ..utils import allowed_file, make_dir

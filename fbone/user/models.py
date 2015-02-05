@@ -5,44 +5,10 @@ from sqlalchemy.ext.mutable import Mutable
 from werkzeug import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 
+from ..types import DenormalizedText
 from ..extensions import db
-from ..utils import get_current_time, SEX_TYPE, STRING_LEN
+from ..utils import get_current_time, GENDER_TYPE, STRING_LEN
 from .constants import USER, USER_ROLE, ADMIN, INACTIVE, USER_STATUS
-
-
-class DenormalizedText(Mutable, types.TypeDecorator):
-    """
-    Stores denormalized primary keys that can be
-    accessed as a set.
-
-    :param coerce: coercion function that ensures correct
-                   type is returned
-
-    :param separator: separator character
-    """
-
-    impl = types.Text
-
-    def __init__(self, coerce=int, separator=" ", **kwargs):
-
-        self.coerce = coerce
-        self.separator = separator
-
-        super(DenormalizedText, self).__init__(**kwargs)
-
-    def process_bind_param(self, value, dialect):
-        if value is not None:
-            items = [str(item).strip() for item in value]
-            value = self.separator.join(item for item in items if item)
-        return value
-
-    def process_result_value(self, value, dialect):
-        if not value:
-            return set()
-        return set(self.coerce(item) for item in value.split(self.separator))
-
-    def copy_value(self, value):
-        return set(value)
 
 
 class UserDetail(db.Model):
@@ -54,15 +20,14 @@ class UserDetail(db.Model):
     age = Column(db.Integer)
     phone = Column(db.String(STRING_LEN))
     url = Column(db.String(STRING_LEN))
-    deposit = Column(db.Numeric)
     location = Column(db.String(STRING_LEN))
     bio = Column(db.String(STRING_LEN))
 
-    sex_code = db.Column(db.Integer)
+    gender_code = db.Column(db.Integer)
 
     @property
-    def sex(self):
-        return SEX_TYPE.get(self.sex_code)
+    def gender(self):
+        return GENDER_TYPE.get(self.gender_code)
 
     created_time = Column(db.DateTime, default=get_current_time)
 
@@ -152,7 +117,7 @@ class User(db.Model, UserMixin):
         self.following.add(user.id)
         user.followers=list(user.followers)
         self.following=list(self.following)
-        # user.followers= 
+        # user.followers=
         # db.session.add(self)
         # db.session.add(user)
         # print "1.0"
@@ -181,9 +146,9 @@ class User(db.Model, UserMixin):
 
     def is_following(self,follower):
         return follower.id in self.following and self.id in follower.followers
-        
 
-# ================================================================
+
+    # ================================================================
     # Class methods
 
     @classmethod

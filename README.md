@@ -7,15 +7,14 @@ You can use it for
 - learning Flask.
 - kicking off your new project faster.
 
-![Flask bone homepage screenshot](http://github.com/imwilsonxu/fbone/raw/master/screenshots/flask-bone-homepage-screenshot.png)
 
 ## FEATURES
 
 ### Frontend Framework
 
 - [HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate).
-- [jQuery](http://jquery.com/). 
-- [bootstrap](https://github.com/twitter/bootstrap).
+- [jQuery](http://jquery.com/).
+- [bootstrap](https://getbootstrap.com).
 
 ### Flask Extensions
 
@@ -29,70 +28,33 @@ You can use it for
 
 ### Others
 
-- Well designed structure for **large project**.
-- Quickly Deploy via [mod\_wsgi](flask.pocoo.org/docs/deploying/mod_wsgi/) and [fabric](flask.pocoo.org/docs/patterns/fabric/).
+- Well designed structure for a **large project**.
+- Quickly Deploy via [fabric](flask.pocoo.org/docs/patterns/fabric/).
 - Admin interface.
-- Home-bake logger.
+- Homebaked logger.
 
 ## USAGE
 
 Pre-required:
 
-- Ubuntu (should be fine in other linux distro)
 - git
 - pip
-- fabric
 - sqlite
 - virtualenv
-- apache + mod\_wsgi
 
-Clone.
-
-    git clone https://github.com/imwilsonxu/fbone.git fbone
-
-virtualenv.
-
-    fab setup
-
-Debug.
-
-    fab d
-
-Open `http://127.0.0.1:5000`, done!
-
-## Deploy with WSGI
-
-Clone.
-
-    cd /var/www
-    git clone https://github.com/imwilsonxu/fbone.git fbone
-    sudo chown `whoami` -R fbone
-
-vhost.
-
-    WSGIDaemonProcess fbone user=wilson group=wilson threads=5
-    WSGIScriptAlias /fbone /var/www/fbone/app.wsgi
-
-    <Directory /var/www/fbone/>
-        WSGIScriptReloading On
-        WSGIProcessGroup fbone
-        WSGIApplicationGroup %{GLOBAL}
-        Order deny,allow
-        Allow from all
-    </Directory>
-
-virtualenv.
-
-    fab setup
+```
+$ python manage.py runserver
+```
+Then open `http://127.0.0.1:5000`
 
 **IMPORTANT**:
 
 - Change `INSTANCE_FOLDER_PATH` in `fbone/utils.py` to suit yourself.
-- Put `production.cfg` under `INSTANCE_FOLDER_PATH`.
+- Put `*.cfg` under `INSTANCE_FOLDER_PATH`.
 
+```
 ## STRUCTURE
 
-    ├── app.wsgi                (mod_wsgi wsgi config)
     ├── CHANGES
     ├── fabfile.py              (fabric file)
     ├── fbone                   (main app)
@@ -115,7 +77,7 @@ virtualenv.
     │   │   ├── errors
     │   │   ├── frontend
     │   │   ├── index.html
-    │   │   ├── layouts 
+    │   │   ├── layouts
     │   │   ├── macros
     │   │   ├── settings
     │   │   └── user
@@ -134,6 +96,7 @@ virtualenv.
     ├── screenshots
     ├── setup.py
     └── tests                   (unit tests, run via `nosetest`)
+```
 
 ## LICENSE
 

@@ -5,38 +5,15 @@ from uuid import uuid4
 from flask import (Blueprint, render_template, current_app, request,
                    flash, url_for, redirect, session, abort)
 from flask.ext.mail import Message
-from flask.ext.babel import gettext as _
 from flask.ext.login import login_required, login_user, current_user, logout_user, confirm_login, login_fresh
+from flask.ext.babel import gettext as _
 
 from ..user import User, UserDetail
-from ..extensions import  mail, login_manager, oid
-from .forms import SignupForm, LoginForm, RecoverPasswordForm, ReauthForm, ChangePasswordForm, OpenIDForm, CreateProfileForm
+from ..extensions import  mail, login_manager
+from .forms import SignupForm, LoginForm, RecoverPasswordForm, ReauthForm, ChangePasswordForm, CreateProfileForm
 
 
 frontend = Blueprint('frontend', __name__)
-
-
-@frontend.route('/login/openid', methods=['GET', 'POST'])
-@oid.loginhandler
-def login_openid():
-    if current_user.is_authenticated():
-        return redirect(url_for('user.index'))
-
-    form = OpenIDForm()
-    if form.validate_on_submit():
-        return form.login(oid)
-    return render_template('frontend/login_openid.html', form=form, error=oid.fetch_error())
-
-
-@oid.after_login
-def create_or_login(resp):
-    user = User.query.filter_by(openid=resp.identity_url).first()
-    if user and login_user(user):
-        flash('Logged in', 'success')
-        return redirect(oid.get_next_url() or url_for('user.index'))
-    return redirect(url_for('frontend.create_profile', next=oid.get_next_url(),
-            name=resp.fullname or resp.nickname, email=resp.email,
-            openid=resp.identity_url))
 
 
 @frontend.route('/create_profile', methods=['GET', 'POST'])
@@ -63,10 +40,7 @@ def index():
 
     if current_user.is_authenticated():
         return redirect(url_for('user.index'))
-
-    page = int(request.args.get('page', 1))
-    pagination = User.query.paginate(page=page, per_page=10)
-    return render_template('index.html', pagination=pagination)
+    return render_template('index.html')
 
 
 @frontend.route('/search')

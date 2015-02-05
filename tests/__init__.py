@@ -35,11 +35,10 @@ class TestCase(Base):
                 role_code=USER,
                 status_code=ACTIVE,
                 user_detail=UserDetail(
-                    sex_code=MALE,
+                    gender_code=MALE,
                     age=10,
                     url=u'http://demo.example.com',
-                    deposit=100.00,
-                    location=u'Hangzhou',
+                    location=u'Tallahassee, FL',
                     bio=u'admin Guy is ... hmm ... just a demo guy.'))
         admin = User(
                 name=u'admin',
@@ -48,11 +47,10 @@ class TestCase(Base):
                 role_code=ADMIN,
                 status_code=ACTIVE,
                 user_detail=UserDetail(
-                    sex_code=MALE,
+                    gender_code=MALE,
                     age=10,
                     url=u'http://admin.example.com',
-                    deposit=100.00,
-                    location=u'Hangzhou',
+                    location=u'Tallahassee, FL',
                     bio=u'admin Guy is ... hmm ... just a admin guy.'))
         db.session.add(demo)
         db.session.add(admin)

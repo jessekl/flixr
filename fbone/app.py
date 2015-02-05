@@ -8,11 +8,10 @@ from flask.ext.babel import Babel
 from .config import DefaultConfig
 from .user import User, user
 from .settings import settings
-from .message import message
 from .frontend import frontend
 from .api import api
 from .admin import admin
-from .extensions import db, mail, cache, login_manager, oid
+from .extensions import db, mail, cache, login_manager
 from .utils import INSTANCE_FOLDER_PATH
 from flask.ext.login import login_required, current_user
 
@@ -25,7 +24,6 @@ DEFAULT_BLUEPRINTS = (
     user,
     settings,
     api,
-    message,
     admin,
 )
 
@@ -46,8 +44,6 @@ def create_app(config=None, app_name=None, blueprints=None):
     configure_logging(app)
     configure_template_filters(app)
     configure_error_handlers(app)
-
-
 
     return app
 
@@ -93,9 +89,6 @@ def configure_extensions(app):
     def load_user(id):
         return User.query.get(id)
     login_manager.setup_app(app)
-
-    # flask-openid
-    oid.init_app(app)
 
 
 def configure_blueprints(app, blueprints):
@@ -163,16 +156,9 @@ def configure_hook(app):
     def before_request():
         pass
 
-    @app.context_processor
-    def starred_messages():
-        star_messages = []
-        try:
-            messages =  current_user.star_message
-            for message in messages:
-                star_messages.append(message.message_id)
-        except:
-            pass
-        return dict(star_messages = star_messages )
+    # @app.context_processor
+    # def ctx_processor():
+    #     pass
 
 
 

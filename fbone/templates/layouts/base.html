@@ -6,14 +6,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>{% block title %}{{ page_title|default(_('Project')) }}{% endblock %} - Project</title>
+    <title>{% block title %}{{ page_title|default(_('Project')) }}{% endblock %}</title>
     <meta name="description" content="Fbone (Flask bone) is a Flask (Python microframework) template/bootstrap/boilerplate application.">
     <meta name="author" content="Wilson Xu">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="Shortcut Icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
-
     {% block css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
@@ -24,18 +21,13 @@
     {% endblock %}
 
     {% block js_top %}
-        <script src="//upcdn.b0.upaiyun.com/libs/modernizr/modernizr-2.6.2.min.js"></script>
-        <script type=text/javascript>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+        <script type="text/javascript">
           var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
         </script>
-
     {% endblock %}
-
-
-
-
-
 </head>
+
 <body>
     {% include "macros/_ask_user_to_update_ie.html" %}
 
@@ -118,32 +110,25 @@
 
     <footer id="footer">
         <ul class="footer-links">
-            <li>{{_('© 2013')}}</li>
-            <li><a href='https://github.com/imwilsonxu/fbone'>{{_('About')}}</a></li>
+            <li>{{_('&copy;')}}</li>
+            <li><a href='https://github.com/frankV/manekineko'>{{_('About')}}</a></li>
             <li class="muted">&middot;</li>
             <li><a href='{{ url_for('frontend.help') }}'>{{_('Help')}}</a></li>
             <li class="muted">&middot;</li>
-            <li><a href='https://github.com/imwilsonxu/fbone/blob/master/LICENSE'>{{_('Terms')}}</a></li>
-            <li class="muted">&middot;</li>
-            <li><a href='http://imwilsonxu.net'>{{_('Blog')}}</a></li>
+            <li><a href='#'>{{_('Terms')}}</a></li>
         </ul>
     </footer>
 
 
     {% block js_btm %}
-    <script src="//upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.0.min.js"></script>
-    <!--
-    {% set jquery_path = url_for('static', filename='js/vendor/jquery-1.8.3.min.js') %}
-    <script>window.jQuery || document.write('<script src="{{ jquery_path }}"><\/script>')</script>
-    -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
     <script src="{{ url_for('static', filename='js/vendor/bootstrap.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% endblock %}
 
-{% block extra_js %}
+    {% block extra_js %}
     {% endblock %}
-
 
     {% block ga %}
     {% include "macros/_google_analytics.html" %}
