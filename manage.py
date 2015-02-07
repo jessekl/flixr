@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+    manage
+    ~~~~~~
+
+    Manager module
+"""
 
 from flask.ext.script import Manager
 
@@ -7,9 +13,18 @@ from fbone.extensions import db
 from fbone.utils import MALE
 from fbone.modules.user import User, UserDetail, ADMIN, ACTIVE
 
+# from fbone.modules.admin.commands import ...
+# from fbone.modules.api.commands import ...
+# from fbone.modules.frontend.commands import ...
+# from fbone.modules.settings.commands import ...
+from fbone.modules.user.commands import CreateUserCommand, DeleteUserCommand, ListUsersCommand
+
 
 app = create_app()
 manager = Manager(app)
+manager.add_command('create_user', CreateUserCommand())
+manager.add_command('delete_user', DeleteUserCommand())
+manager.add_command('list_users', ListUsersCommand())
 
 
 @manager.command
