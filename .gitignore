@@ -11,9 +11,11 @@
 
 *.db
 *.sqlite
+.DS_Store
 
 dist
 build
+.webassets-cache
 
 instance
 production.py
