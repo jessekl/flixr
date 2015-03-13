@@ -1,15 +1,18 @@
 {% macro render_checkbox(field) %}
 <div class="control-group{% if field.errors %} error{% endif %}">
+
     <div class="controls">
-        <label for="{{ field.id }}" class="checkbox inline">
+        <div class="checkbox">
+          <label for="{{ field.id }}">
             {{ field }}{{ field.label.text }}
-        </label>
-        <span class="help-inline">{{ field.description }}</span>
-        {% if field.errors -%}
-            {% for error in field.errors -%}
-            <span class="help-block error">{{ error|e }}</span>
-            {%- endfor %}
-        {%- endif %}
+          </label>
+          <span class="help-inline">{{ field.description }}</span>
+          {% if field.errors -%}
+              {% for error in field.errors -%}
+              <span class="help-block error">{{ error|e }}</span>
+              {%- endfor %}
+          {%- endif %}
+        </div>
     </div>
 </div>
 {% endmacro%}
@@ -19,9 +22,11 @@
     {{ field.label(class_="control-label") }}
     <div class="controls">
         {% for subfield in field -%}
-        <label for="{{ subfield.id }}" class="radio inline">
-            {{ subfield }} {{ subfield.label.text }}
-        </label>
+            <div class="radio">
+                <label for="{{ subfield.id }}">
+                    {{ subfield }} {{ subfield.label.text }}
+                </label>
+            </div>
         {%- endfor %}
         <span class="help-inline">{{ field.description }}</span>
         {% if field.errors -%}
@@ -58,7 +63,7 @@
         {{ field.label }}
     </label>
     <div class="controls">
-        {{ field(class="span6", rows="5") }}
+        {{ field(class="col-xs-6 form-control", rows="5") }}
         <span class="help-inline">{{ field.description }}</span>
         {% if field.errors -%}
             {% for error in field.errors -%}
@@ -76,7 +81,7 @@
         {{ field.label }}
     </label>
     <div class="controls">
-        {{ field }}
+        {{ field(class="form-control") }}
         <span class="help-inline">{{ field.description }}</span>
         {% if field.errors -%}
             {% for error in field.errors -%}

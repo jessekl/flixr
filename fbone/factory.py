@@ -6,6 +6,7 @@ from flask import Flask, request, render_template
 from flask.ext.login import login_required, current_user
 from flask.ext.babel import Babel
 
+from fbone import assets
 from fbone.config import DefaultConfig
 from fbone.modules.user import User, user
 from fbone.modules.settings import settings
@@ -37,6 +38,10 @@ def create_app(config=None, app_name=None, blueprints=None):
         blueprints = DEFAULT_BLUEPRINTS
 
     app = Flask(app_name, instance_path=INSTANCE_FOLDER_PATH, instance_relative_config=True)
+    
+    # Init assets
+    assets.init_app(app)
+    
     configure_app(app, config)
     configure_hook(app)
     configure_blueprints(app, blueprints)
