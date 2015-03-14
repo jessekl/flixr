@@ -8,15 +8,11 @@ from flask.ext.login import UserMixin
 from fbone.types import DenormalizedText
 from fbone.extensions import db
 from fbone.utils import get_current_time, GENDER_TYPE, STRING_LEN
+from fbone.modules.base import Base
 from .constants import USER, USER_ROLE, ADMIN, INACTIVE, USER_STATUS
 
 
-class UserDetail(db.Model):
-
-    __tablename__ = 'user_details'
-
-    id = Column(db.Integer, primary_key=True)
-
+class UserDetail(Base):
     age = Column(db.Integer)
     phone = Column(db.String(STRING_LEN))
     url = Column(db.String(STRING_LEN))
@@ -32,11 +28,7 @@ class UserDetail(db.Model):
     created_time = Column(db.DateTime, default=get_current_time)
 
 
-class User(db.Model, UserMixin):
-
-    __tablename__ = 'users'
-
-    id = Column(db.Integer, primary_key=True)
+class User(Base, UserMixin):
     name = Column(db.String(STRING_LEN), nullable=False, unique=True)
     email = Column(db.String(STRING_LEN), nullable=False, unique=True)
     openid = Column(db.String(STRING_LEN), unique=True)
@@ -94,7 +86,7 @@ class User(db.Model, UserMixin):
 
     # ================================================================
     # One-to-one (uselist=False) relationship between users and user_details.
-    user_detail_id = Column(db.Integer, db.ForeignKey("user_details.id"))
+    user_detail_id = Column(db.Integer, db.ForeignKey("userdetail.id"))
     user_detail = db.relationship("UserDetail", uselist=False, backref="user")
 
     # ================================================================
@@ -173,10 +165,6 @@ class User(db.Model, UserMixin):
             ))
         q = reduce(db.and_, criteria)
         return cls.query.filter(q)
-
-    @classmethod
-    def get_by_id(cls, user_id):
-        return cls.query.filter_by(id=user_id).first_or_404()
 
     def check_name(self, name):
         return User.query.filter(db.and_(User.name == name, User.email != self.id)).count() == 0

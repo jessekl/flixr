@@ -68,10 +68,6 @@ class DefaultConfig(BaseConfig):
     MAIL_PASSWORD = 'gmail_password'
     DEFAULT_MAIL_SENDER = '%s@gmail.com' % MAIL_USERNAME
 
-    # Flask-openid: http://pythonhosted.org/Flask-OpenID/
-    OPENID_FS_STORE_PATH = os.path.join(INSTANCE_FOLDER_PATH, 'openid')
-    make_dir(OPENID_FS_STORE_PATH)
-
     LANGUAGES = {
         'en': 'English',
         'es': 'Español'
