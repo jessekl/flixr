@@ -35,7 +35,7 @@ def oauth_authorize(provider):
 
 
 @user.route('/callback/<provider>')
-def oauth_callback(provider):
+def oauth_callback(provider, user=None):
     if not current_user.is_anonymous():
         return redirect(url_for('index'))
     oauth = OAuthSignIn.get_provider(provider)
@@ -45,7 +45,6 @@ def oauth_callback(provider):
         return redirect(url_for('frontend.index'))
     # update to foreign key later
     # user = User.query.filter_by(social_id=social_id).first()
-    user = None
     if not user:
         user = User().create(nickname=username, email=email)
         social_id = UsersSocialAccount().create(social_id=social_id, provider=provider)
@@ -55,7 +54,7 @@ def oauth_callback(provider):
     return redirect(url_for('user.index'))
 
 
-@user.route('/<int:_id>/profile')
+@user.route('/<int:user_id>/profile')
 @login_required
 def profile(_id):
     user = User.get_by_id(_id)

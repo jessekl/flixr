@@ -3,14 +3,12 @@
 from flask import (Blueprint, render_template, current_app, request,
                    flash, url_for, redirect, session, abort)
 from flask.ext.mail import Message
-from flask.ext.login import (login_required, login_user, current_user, logout_user, confirm_login,
-    login_fresh)
+from flask.ext.login import (login_required, login_user, current_user, logout_user, confirm_login, login_fresh)
 from flask.ext.babel import gettext as _
 
 from fbone.modules.user import User
 from fbone.extensions import mail, login_manager
-from .forms import (SignupForm, LoginForm, RecoverPasswordForm, ReauthForm, ChangePasswordForm,
-    CreateProfileForm)
+from .forms import (SignupForm, LoginForm, RecoverPasswordForm, ReauthForm, ChangePasswordForm, CreateProfileForm)
 
 
 frontend = Blueprint('frontend', __name__)
