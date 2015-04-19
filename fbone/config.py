@@ -14,7 +14,7 @@ class BaseConfig(object):
     PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
     DEBUG = True
-    TESTING = True
+    TESTING = False
 
     ADMINS = ['youremail@yourdomain.com']
 
@@ -25,7 +25,7 @@ class BaseConfig(object):
     make_dir(LOG_FOLDER)
 
     # Fild upload, should override in production.
-    # Limited the maximum allowed payload to 16 megabytes.
+    # Limit the maximum allowed payload to 16 megabytes.
     # http://flask.pocoo.org/docs/patterns/fileuploads/#improving-uploads
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     UPLOAD_FOLDER = os.path.join(PROJECT_ROOT, 'fbone/static/uploads')
@@ -39,15 +39,15 @@ class BaseConfig(object):
 class DefaultConfig(BaseConfig):
 
     DEBUG = True
-    TESTING = True
 
     # Flask-Sqlalchemy: http://packages.python.org/Flask-SQLAlchemy/config.html
     SQLALCHEMY_ECHO = True
-    # SQLITE for prototyping.
+    # SQLITE
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + INSTANCE_FOLDER_PATH + '/db.sqlite'
-    # SQLALCHEMY_DATABASE_URI = 'postgres://ss:ss@localhost/manekineko'
-    # MYSQL for production.
-    # SQLALCHEMY_DATABASE_URI = 'mysql://username:password@server/db?charset=utf8'
+    # MySQL
+    # SQLALCHEMY_DATABASE_URI = 'mysql://username:password@localhost/db?charset=utf8'
+    # PostgreSQL
+    # SQLALCHEMY_DATABASE_URI = 'postgres://ss:ss@localhost/db'
 
     # Flask-babel: http://pythonhosted.org/Flask-Babel/
     ACCEPT_LANGUAGES = ['zh']
@@ -77,6 +77,5 @@ class DefaultConfig(BaseConfig):
 class TestConfig(BaseConfig):
     TESTING = True
     CSRF_ENABLED = False
-
     SQLALCHEMY_ECHO = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite://'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + INSTANCE_FOLDER_PATH + '/test.sqlite'

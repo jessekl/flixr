@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+    fbone.modules.user
+    ~~~~~~~~~~~~~~~~~~
+
+    User model definition(s)
+"""
 
 from uuid import uuid4
 
@@ -16,7 +22,8 @@ from .constants import USER, USER_ROLE, ADMIN, INACTIVE, USER_STATUS
 social_accounts = db.Table(
     'social_accounts',
     db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-    db.Column('social_id', db.Integer(), db.ForeignKey('userssocialaccount.id')))
+    db.Column('social_id', db.Integer(), db.ForeignKey('userssocialaccount.id'))
+)
 
 
 class UsersSocialAccount(Base):
@@ -89,10 +96,6 @@ class User(Base, UserMixin):
         return USER_STATUS[self.status_code]
 
     # ================================================================
-    # One-to-one (uselist=False) relationship between users and user_details.
-
-
-    # ================================================================
     # Follow / Following
     followers = Column(DenormalizedText)
     following = Column(DenormalizedText)
@@ -119,12 +122,10 @@ class User(Base, UserMixin):
             user.followers.remove(self.id)
             user.followers = list(user.followers)
             db.session.add(user)
-
         if user.id in self.following:
             self.following.remove(user.id)
             self.following = list(self.following)
             db.session.add(self)
-
         db.session.commit()
 
     def get_following_query(self):

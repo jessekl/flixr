@@ -12,7 +12,7 @@ from fbone.modules.settings import settings
 from fbone.modules.frontend import frontend
 from fbone.modules.api import api
 from fbone.modules.admin import admin
-from fbone.extensions import db, mail, cache, login_manager
+from fbone.extensions import db, migrate, mail, cache, login_manager
 from fbone.utils import PROJECT_PATH, INSTANCE_FOLDER_PATH
 
 
@@ -68,12 +68,13 @@ def configure_app(app, config=None):
         config_file = os.path.join(PROJECT_PATH, config)
         app.config.from_pyfile(config_file, silent=False)
 
-    # print app.config['OAUTH_CREDENTIALS']
-
 
 def configure_extensions(app):
     # flask-sqlalchemy
     db.init_app(app)
+
+    # flask-migrate
+    migrate.init_app(app, db)
 
     # flask-mail
     mail.init_app(app)

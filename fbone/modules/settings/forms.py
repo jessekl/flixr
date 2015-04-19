@@ -6,14 +6,14 @@ from datetime import datetime
 
 from flask import current_app
 from flask.ext.wtf import Form
-from flask.ext.wtf.html5 import URLField, EmailField, TelField
+from flask.ext.wtf.html5 import EmailField
 from wtforms import (ValidationError, TextField, HiddenField, PasswordField, SubmitField,
     TextAreaField, IntegerField, RadioField, FileField)
-from wtforms.validators import (Required, Length, EqualTo, Email, NumberRange, AnyOf, Optional, URL)
+from wtforms.validators import (Required, Length, EqualTo, Email, AnyOf, Optional)
 from flask.ext.babel import lazy_gettext as _
 from flask.ext.login import current_user
 
-from fbone.utils import PASSWORD_LEN_MIN, PASSWORD_LEN_MAX, AGE_MIN, AGE_MAX
+from fbone.utils import PASSWORD_LEN_MIN, PASSWORD_LEN_MAX
 from fbone.utils import allowed_file, ALLOWED_AVATAR_EXTENSIONS, make_dir
 from fbone.utils import GENDER_TYPE
 from fbone.extensions import db
@@ -24,14 +24,9 @@ class ProfileForm(Form):
     multipart = True
     next = HiddenField()
     email = EmailField(_('Email'), [Required(), Email()])
-    # Don't use the same name as model because we are going to use populate_obj().
     avatar_file = FileField(_("Avatar"), [Optional()])
     gender_code = RadioField(_("Gender"), [AnyOf([str(val) for val in GENDER_TYPE.keys()])],
         choices=[(str(val), label) for val, label in GENDER_TYPE.items()])
-    age = IntegerField(_('Age'), [Optional(), NumberRange(AGE_MIN, AGE_MAX)])
-    phone = TelField(_('Phone'), [Length(max=64)])
-    url = URLField(_('URL'), [Optional(), URL()])
-    location = TextField(_('Location'), [Length(max=64)])
     bio = TextAreaField(_('Bio'), [Length(max=1024)])
     submit = SubmitField(_('Save'))
 
@@ -42,7 +37,7 @@ class ProfileForm(Form):
 
     def validate_avatar_file(form, field):
         if field.data and not allowed_file(field.data.filename):
-            raise ValidationError(_("Please upload files with extensions:") + " %s" %
+            raise ValidationError(_("Please only upload files with extensions:") + " %s" %
                 "/".join(ALLOWED_AVATAR_EXTENSIONS))
 
     def create_profile(self, request, user):

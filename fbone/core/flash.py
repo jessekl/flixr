@@ -3,7 +3,6 @@
     fbone.core.email
     ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    fbone core email methods
     Convenience wrappers for flask.flash() with special-character handling.
 
     With PyCharm inspections it's easy to see which custom flash messages are available. If you

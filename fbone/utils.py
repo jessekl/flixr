@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-    Utils has nothing to do with models and views.
+    fbone.utils
+    ~~~~~~~~~~~
+
+    utility values/functions for fbone models and filters
 """
 
+import os
 import string
 import random
-import os
 
 from datetime import datetime
 
@@ -16,7 +19,7 @@ INSTANCE_FOLDER_PATH = os.path.join(PROJECT_PATH, 'tmp/instance')
 
 ALLOWED_AVATAR_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
-# Form validation
+STRING_LEN = 255
 
 USERNAME_LEN_MIN = 4
 USERNAME_LEN_MAX = 25
@@ -27,12 +30,6 @@ REALNAME_LEN_MAX = 25
 PASSWORD_LEN_MIN = 6
 PASSWORD_LEN_MAX = 16
 
-AGE_MIN = 1
-AGE_MAX = 300
-
-DEPOSIT_MIN = 0.00
-DEPOSIT_MAX = 9999999999.99
-
 # gender type
 MALE = 1
 FEMALE = 2
@@ -42,9 +39,6 @@ GENDER_TYPE = {
     FEMALE: u'Female',
     OTHER: u'Other',
 }
-
-# Model
-STRING_LEN = 100
 
 
 def get_current_time():

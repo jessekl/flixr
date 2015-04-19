@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+    fabfile
+    ~~~~~~~
+
+    fbaric commands
+"""
 
 # http://docs.fabfile.org/en/1.5/tutorial.html
 
@@ -6,7 +12,7 @@ from fabric.api import *
 import fabric_gunicorn as gunicorn
 
 
-project = "lurcat"
+project = "fbone"
 
 # the user to use for the remote commands
 env.user = ''
@@ -18,7 +24,6 @@ def reset():
     """
     Reset local debug env.
     """
-
     local("rm -rf /tmp/instance")
     local("mkdir /tmp/instance")
     local("python manage.py initdb")
@@ -32,7 +37,7 @@ def setup():
     """
     Setup virtual env.
     """
-    apt_get("python-pip libmysqlclient-dev python-dev postgresql-9.1")
+    apt_get("python-pip libmysqlclient-dev python-dev")
     local("apt-get -y build-dep python-psycopg2")
     local("virtualenv env")
     activate_this = "env/bin/activate_this.py"
@@ -43,13 +48,7 @@ def setup():
 
 def create_database():
     """Creates role and database"""
-    db_user = 'ss'  # define these
-    db_pass = 'ss'
-    db_table = 'manekineko'
-    sudo('psql -c "CREATE USER %s WITH NOCREATEDB NOCREATEUSER ENCRYPTED PASSWORD E\'%s\'"' %
-        (db_user, db_pass), user='postgres')
-    sudo('psql -c "CREATE DATABASE %s WITH OWNER %s"' % (
-        db_table, db_user), user='postgres')
+    pass
 
 
 def d():
@@ -57,17 +56,17 @@ def d():
     Debug.
     """
     reset()
-    local("python manage.py run")
+    local("python manage.py runserver")
 
 
 def babel():
     """
     Babel compile.
     """
-    local("pybabel extract -F ../lurcat/config -k lazy_gettext -o messages.pot lurcat")
-    local("pybabel init -i messages.pot -d lurcat/translations -l es")
-    local("pybabel init -i messages.pot -d lurcat/translations -l en")
-    local("pybabel compile -f -d lurcat/translations")
+    local("pybabel extract -F ../fbone/config -k lazy_gettext -o messages.pot fbone")
+    local("pybabel init -i messages.pot -d fbone/translations -l es")
+    local("pybabel init -i messages.pot -d fbone/translations -l en")
+    local("pybabel compile -f -d fbone/translations")
 
 
 @task
