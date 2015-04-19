@@ -3,7 +3,7 @@
     fabfile
     ~~~~~~~
 
-    fbaric commands
+    fabric commands
 """
 
 # http://docs.fabfile.org/en/1.5/tutorial.html
