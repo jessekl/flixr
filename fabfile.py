@@ -6,9 +6,12 @@
     fabric commands
 """
 
-# http://docs.fabfile.org/en/1.5/tutorial.html
+import os
 
 from fabric.api import *
+from fabric.contrib.project import rsync_project
+from fabric.contrib import console
+from fabric import utils
 import fabric_gunicorn as gunicorn
 
 
@@ -18,6 +21,42 @@ project = "fbone"
 env.user = ''
 # the servers where the commands are executed
 env.hosts = ['']
+
+RSYNC_EXCLUDE = [
+    'app_wsgi.py',
+    '*.pyc',
+    '.DS_Store',
+    'config/',
+    'conf/',
+    'tmp/',
+    '*.cfg',
+    '*.conf',
+    'LICENSE',
+    '*.md',
+    '.hg*',
+    '.flow'
+]
+
+
+def bootstrap():
+    """ initialize remote host environment (virtualenv, deploy, update) """
+    create_virtualenv()
+    deploy()
+    update_requirements()
+
+
+def create_virtualenv():
+    """ setup virtualenv on remote host """
+    with prefix("source ~/.bash_profile"):
+        run('mkvirtualenv %s' % 'forsys')
+
+
+def update_requirements():
+    """ update external dependencies on remote host """
+    with prefix('workon forsys'):
+        requirements = os.path.join(env.path, 'requirements.txt')
+        cmd = ['pip install -r %s' % requirements]
+        run(' '.join(cmd))
 
 
 def reset():
@@ -38,12 +77,27 @@ def setup():
     Setup virtual env.
     """
     apt_get("python-pip libmysqlclient-dev python-dev")
-    local("apt-get -y build-dep python-psycopg2")
     local("virtualenv env")
     activate_this = "env/bin/activate_this.py"
     execfile(activate_this, dict(__file__=activate_this))
     local("python setup.py install")
     reset()
+
+
+def deploy():
+    """ rsync code to remote host """
+    if env['roles'] == ['production']:
+        if not console.confirm('Are you sure you want to deploy production?',
+                               default=False):
+            utils.abort('Production deployment aborted.')
+    run('mkdir -p %s' % os.path.join(env.path, 'tmp/instance'))
+    extra_opts = '--update'
+    rsync_project(
+        env.path,
+        env.root,
+        exclude=RSYNC_EXCLUDE,
+        delete=True,
+        extra_opts=extra_opts,)
 
 
 def create_database():
@@ -67,6 +121,27 @@ def babel():
     local("pybabel init -i messages.pot -d fbone/translations -l es")
     local("pybabel init -i messages.pot -d fbone/translations -l en")
     local("pybabel compile -f -d fbone/translations")
+
+
+def service(command=None):
+    """ usage:  service:command
+    ex:     fab -R production service:status
+    commands: start, stop, status
+    """
+    if command:
+        run('service forsys %s' % command)
+    utils.error('invalid command')
+
+
+def ps(name=None):
+    """ usage:  ps:name
+    ex:     fab -R production ps:name
+    name: process name
+    """
+    if name:
+        run('ps aux | grep %s' % name)
+    utils.error('invalid command')
+
 
 
 @task
