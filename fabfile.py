@@ -48,20 +48,19 @@ def bootstrap():
 def create_virtualenv():
     """ setup virtualenv on remote host """
     with prefix("source ~/.bash_profile"):
-        run('mkvirtualenv %s' % 'forsys')
+        run('mkvirtualenv %s' % 'fbone')
 
 
 def update_requirements():
     """ update external dependencies on remote host """
-    with prefix('workon forsys'):
+    with prefix('workon fbone'):
         requirements = os.path.join(env.path, 'requirements.txt')
         cmd = ['pip install -r %s' % requirements]
         run(' '.join(cmd))
 
 
 def reset():
-    """
-    Reset local debug env.
+    """Reset local debug env.
     """
     local("rm -rf /tmp/instance")
     local("mkdir /tmp/instance")
@@ -73,8 +72,7 @@ def apt_get(*packages):
 
 
 def setup():
-    """
-    Setup virtual env.
+    """Setup virtual env.
     """
     apt_get("python-pip libmysqlclient-dev python-dev")
     local("virtualenv env")
@@ -106,16 +104,14 @@ def create_database():
 
 
 def d():
-    """
-    Debug.
+    """Debug.
     """
     reset()
     local("python manage.py runserver")
 
 
 def babel():
-    """
-    Babel compile.
+    """Babel compile.
     """
     local("pybabel extract -F ../fbone/config -k lazy_gettext -o messages.pot fbone")
     local("pybabel init -i messages.pot -d fbone/translations -l es")
@@ -129,7 +125,7 @@ def service(command=None):
     commands: start, stop, status
     """
     if command:
-        run('service forsys %s' % command)
+        run('service fbone %s' % command)
     utils.error('invalid command')
 
 
