@@ -12,6 +12,7 @@ from fbone.modules.settings import settings
 from fbone.modules.frontend import frontend
 from fbone.modules.api import api
 from fbone.modules.admin import admin
+from fbone.modules.movies import movies
 from fbone.extensions import db, migrate, mail, cache, login_manager
 from fbone.utils import PROJECT_PATH, INSTANCE_FOLDER_PATH
 
@@ -25,6 +26,7 @@ DEFAULT_BLUEPRINTS = (
     settings,
     api,
     admin,
+    movies,
 )
 
 
