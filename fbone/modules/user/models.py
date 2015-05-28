@@ -52,7 +52,7 @@ class User(Base, UserMixin):
 
     def _get_password(self):
         return self._password
-
+    
     def _set_password(self, password):
         self._password = generate_password_hash(password)
     # Hide password encryption by exposing password field only.

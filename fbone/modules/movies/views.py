@@ -74,16 +74,16 @@ def list_upcoming():
 
 @movies.route('/add', methods=['GET', 'POST'])
 #@login_required
-def add():
-    
+def add():    
     the_id = request.json['id']
-    print the_id
+    the_movie = Movie.query.get(int(the_id))
+    print the_movie.name
     #the_movie = Movie.query.get(id=movie_id)
     if request.method == 'POST':
         #add to movie reminder
         
-        # message = client.messages.create(to="+19544946335", from_="+17722667926",
-        #                              body="Hello there!" )
+        message = client.messages.create(to="+17726261816", from_="+17722667926",
+                                      body="Your reminder is set for " + the_movie.name + "! You will get a text on the release date: " + the_movie.release_date)
         # flash('Movie saved.', 'success')
         return redirect(url_for('movies.list_upcoming'))
     else:

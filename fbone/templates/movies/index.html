@@ -50,7 +50,6 @@
 <script>
 
     $(document).on('click', '#movie_table td', function() {
-        
         var id = $(this).closest('tr').attr('data-id'); 
         console.log(id)
        $.ajax({

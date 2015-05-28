@@ -21,4 +21,4 @@ class Movie(Base):
            	'release_date': self.release_date,
            	'poster_url': self.poster_url
         }
-
+   
