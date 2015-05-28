@@ -15,15 +15,16 @@ from fbone.modules.user import User
 movies = Blueprint('movies', __name__, url_prefix='/movies')
 
 YEAR = 2015
-BASE_URL = "http://www.imdb.com/movies-coming-soon"
+BASE_URL = "http://www.imdb.com/movies-coming-soon/"
 @movies.route('/upcoming', methods=['GET', 'POST'])
 @login_required
 def list_upcoming():
-    req = requests.get("http://www.imdb.com/movies-coming-soon")
     today = datetime.date.today()
     month = today.month
-    data = req.text
-    s = BeautifulSoup(data)
     for m in range(month, month + 6):
-    	pass
+    	req = requests.get(BASE_URL + str(YEAR) + "-" + str(m))
+    	data = req.text
+    	s = BeautifulSoup(data)
+    	
+    return render_template("movies/index.html", movies=movies)
      
