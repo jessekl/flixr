@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+import json
 import datetime
 
 import requests
@@ -16,6 +17,7 @@ movies = Blueprint('movies', __name__, url_prefix='/movies')
 
 YEAR = 2015
 BASE_URL = "http://www.imdb.com/movies-coming-soon/"
+BASE_IMG_URL = "http://www.omdbapi.com/?t="
 @movies.route('/upcoming', methods=['GET', 'POST'])
 @login_required
 def list_upcoming():
@@ -39,9 +41,15 @@ def list_upcoming():
     				break
     			table = movie.find("table")
     			name = table.find("h4")
-    			movies_list.append(name.text.strip())
+    			movie_name = re.sub('([0-9]+)', '', name.text.strip())
+    			movie_name = movie_name[:-2].strip()
+    			movie_year = name.text.split()[-1].strip('(').strip(')')
+    			img_req = requests.get(BASE_IMG_URL + movie_name + "&y=" + movie_year + "&plot=short&r=json")
+    			movie_json = json.loads(img_req.text)
+    			if movie_json.has_key("Poster"):
+    				print movie_name + ": " + movie_json["Poster"]
+    			movies_list.append(movie_name)
     		movies_dict[release_date] = movies_list
-    		print movies_dict[release_date]
     	
     return render_template("movies/index.html", movies_dict=movies_dict)
      
