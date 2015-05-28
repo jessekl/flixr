@@ -21,10 +21,16 @@ BASE_URL = "http://www.imdb.com/movies-coming-soon/"
 def list_upcoming():
     today = datetime.date.today()
     month = today.month
-    for m in range(month, month + 6):
-    	req = requests.get(BASE_URL + str(YEAR) + "-" + str(m))
+ 
+    for m in range(month, month + 7):
+    	req = requests.get(BASE_URL + str(YEAR) + "-" + str(m).zfill(2))
     	data = req.text
     	s = BeautifulSoup(data)
+    	for day in s.findAll("h4", {"class":"li_group"}):
+    		release_date = day.text.split()
+    		release_month = release_date[0]
+    		release_day = release_date[1].zfill(2)
+    		print release_month + " " + release_day
     	
     return render_template("movies/index.html", movies=movies)
      
