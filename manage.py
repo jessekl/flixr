@@ -15,7 +15,7 @@ from fbone import create_app
 from fbone.extensions import db
 from fbone.utils import PROJECT_PATH, MALE
 from fbone.modules.user import User, ADMIN, ACTIVE
-
+from fbone.modules.movies import Movie
 from fbone.modules.user.commands import CreateUserCommand, DeleteUserCommand, ListUsersCommand
 
 
@@ -34,7 +34,7 @@ def initdb():
 
     db.drop_all()
     db.create_all()
-
+    
     admin = User(
         name=u'admin',
         fullname=u'Agador Spartacus',

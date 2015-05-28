@@ -4,16 +4,80 @@
 
 
 {% block body %}
+<div id="container">
+    
+<table id="movie_table" class='table table-bordered datatable' style="background:#fcf8e3;" cellspacing="0" width="100%">
 
+    
+    <thead>
+        <tr>          
+            <th>Name</th>
+            <th>Release Date</th>
+
+        </tr>
+    </thead>  
+    {% for movie in movies_list %}
+        <tr data-id="{{ movie.id }}" id="movie-{{ movie.id }}">
+        <td data-id="{{ movie.name }}" id="movie-{{ movie.name }}">{{ movie.name }}</td>
+        <td data-id="{{ movie.release_date }}" id="movie-{{ movie.release_date }}"> {{ movie.release_date }}</td>
+        </tr>
+
+    {% endfor %}
+
+</table>
+    </div>
+    <!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+    
+<script>
+
+    $(document).on('click', '#movie_table td', function() {
+        
+        var id = $(this).closest('tr').attr('data-id'); 
+        console.log(id)
+       $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            url: "{{ url_for('movies.add') }}",
+            data:  JSON.stringify({"id":id}),
+            success: function(response) {
+                $('#movie-'+id).slideUp('slow')
+            },
+            error: function(error) {
+                
+            }
+        });
+      });
+
+
+</script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 {% endblock %}
 
 
 
-
 {% block extra_js %}
   
- 
+  
 
 
 {% endblock %}
