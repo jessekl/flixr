@@ -21,6 +21,8 @@
     {% endblock %}
 
     {% block js_top %}
+            <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
         <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
         <script type="text/javascript">
           var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
@@ -75,13 +77,12 @@
 
     {% block container %}
     <div class="container">
-        <div class="page-header">
+       
             {% block body %}
             {% endblock %}
-        </div>
+        
     </div>
     {% endblock %}
-
 
     <footer class="footer">
         <ul class="footer-links">
@@ -97,9 +98,6 @@
 
     {% block js_btm %}
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.12.0/react.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.12.0/JSXTransformer.js"></script>
- 
         {% assets "js_vendor" -%}
             <script src="{{ ASSET_URL }}"></script>
         {% endassets %}
